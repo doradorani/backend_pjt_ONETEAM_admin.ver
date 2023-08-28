@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oneteam.dormeaseadmin.admin.IAdminMapper">
+
+    <insert id="createAccountConfirm" parameterType="com.oneteam.dormeaseadmin.admin.AdminDto">
+        INSERT INTO
+            admin (
+                school_no,
+                id,
+                password,
+                name,
+                gender,
+                position,
+                phone,
+                address,
+                mail,
+                reg_date,
+                mod_date
+            )
+        VALUES (
+            #{school_no},
+            #{id},
+            #{password},
+            #{name},
+            #{gender},
+            #{position},
+            #{phone},
+            #{address},
+            #{mail},
+            NOW(),
+            NOW()
+        )
+    </insert>
+
+</mapper>
