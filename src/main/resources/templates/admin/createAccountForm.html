@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <!--    <title th:replace="~{/include/title.html::title}"></title>-->
+    <title>aaa</title>
+
+    <link rel="stylesheet" th:href="@{/css/test.css}">
+
+    <script th:src="@{/js/admin/createAccountForm.js}" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div>
+
+    <div>
+       회원가입 페이지
+    </div>
+
+    <div class="create_account_form">
+        <form th:action="@{/admin/createAccountConfirm}" name="createAccountForm" method="post">
+            <input type="text" name="school_no" placeholder="INPUT SCHOOL NAME"><br>
+            <input type="text" name="id" placeholder="INPUT ID"><br>
+            <input type="password" name="password" placeholder="INPUT PASSWORD"><br>
+            <input type="password" name="password_again" placeholder="INPUT PASSWORD AGAIN"><br>
+            <input type="email" name="name" placeholder="INPUT NAME"><br>
+            <select name = "gender">
+                <option value="">---선택해주세요----</option>
+                <option value="1">남자</option>
+                <option value="0">여자</option>
+            </select><br>
+            <input type="text" name="position" placeholder="INPUT POSITION"><br>
+            <input type="text" name="phone" placeholder="INPUT PHONE"><br>
+            <input type="text" name="address" placeholder="INPUT ADDRESS"><br>
+            <input type="text" name="mail" placeholder="INPUT MAIL"><br>
+            <input type="button" value="create account" onclick="createAccountConfirm();">
+            <input type="reset" value="reset">
+        </form>
+    </div>
+
+
+
+</div>
+
+
+</body>
+</html>
