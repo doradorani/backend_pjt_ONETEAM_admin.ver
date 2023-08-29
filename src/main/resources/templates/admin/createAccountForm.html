@@ -32,9 +32,27 @@
                 <option value="0">여자</option>
             </select><br>
             <input type="text" name="position" placeholder="INPUT POSITION"><br>
-            <input type="text" name="phone" placeholder="INPUT PHONE"><br>
+            핸드폰&nbsp;
+            <input type = "hidden" name = "phone">
+            <select name = "phone1">
+                <option value="">---선택해주세요---</option>
+                <option value="010">010</option>
+                <option value="011">011</option>
+                <option value="016">016</option>
+                <option value="019">019</option>
+            </select>&nbsp;- &nbsp;
+            <input type= "text" name = "phone2" oninput="filterKey();"> &nbsp;- &nbsp;
+            <input type = "text" name = "phone3" oninput="filterKey();"><br>
             <input type="text" name="address" placeholder="INPUT ADDRESS"><br>
-            <input type="text" name="mail" placeholder="INPUT MAIL"><br>
+            메일&nbsp;
+            <input type = "hidden" name = "mail">
+            <input type = "text" name = "mail1" placeholder="메일"> @
+            <select name="mail2">
+                <option value="">---선택해주세요---</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="naver.com">naver.com</option>
+                <option value="daum.net">daum.net</option>
+            </select><br>
             <input type="button" value="create account" onclick="createAccountConfirm();">
             <input type="reset" value="reset">
         </form>

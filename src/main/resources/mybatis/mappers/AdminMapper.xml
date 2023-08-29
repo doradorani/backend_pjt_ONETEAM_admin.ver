@@ -5,6 +5,15 @@
 
 <mapper namespace="com.oneteam.dormeaseadmin.admin.IAdminMapper">
 
+    <select id="isAdmin" parameterType="String" resultType="Integer">
+        SELECT
+            count(*)
+        FROM
+            admin
+        WHERE
+            id = #{id}
+    </select>
+
     <insert id="createAccountConfirm" parameterType="com.oneteam.dormeaseadmin.admin.AdminDto">
         INSERT INTO
             admin (
@@ -34,5 +43,14 @@
             NOW()
         )
     </insert>
+
+    <select id="loginAccountConfirm" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.AdminDto">
+        SELECT
+            *
+        FROM
+            admin
+        WHERE
+            id = #{id}
+    </select>
 
 </mapper>

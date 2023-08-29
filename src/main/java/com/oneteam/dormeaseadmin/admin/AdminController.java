@@ -1,5 +1,6 @@
 package com.oneteam.dormeaseadmin.admin;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,14 +35,46 @@ public class AdminController {
     public String createAccountConfirm(AdminDto adminDto){
         log.info("createAccountConfirm()");
 
-        String nextPage = "home";
-
-        log.info(adminDto);
+        String nextPage = "redirect:/";
 
         int result = adminService.createAccountConfirm(adminDto);
 
-        log.info("result => " + result);
+        return nextPage;
+    }
+
+    /*
+     * 관리자 로그인 폼
+     */
+    @GetMapping("/loginAccountForm")
+    public String loginAccountForm(){
+        log.info("loginAccountForm()");
+
+        String nextPage = "admin/loginAccountForm";
 
         return nextPage;
     }
+
+    /*
+     * 관리자 로그인 확인
+     */
+    @PostMapping("/loginAccountConfirm")
+    public String loginAccountConfirm(AdminDto adminDto, HttpSession session){
+        log.info("loginAccountConfirm()");
+
+        String nextPage = "redirect:/";
+
+        AdminDto loginedAdminDto = adminService.loginAccountConfirm(adminDto);
+
+        if(loginedAdminDto != null){
+            session.setAttribute("loginedAdminDto", loginedAdminDto);
+            session.setMaxInactiveInterval(30*60);
+        }
+
+        return nextPage;
+    }
+
+
+
+
+
 }

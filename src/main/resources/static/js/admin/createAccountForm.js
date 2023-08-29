@@ -27,16 +27,27 @@ function createAccountConfirm() {
     } else if(form.position.value == ''){
         alert("부서를 입력해주세요!");
         form.gender.focus();
-    } else if(form.phone.value == ''){
+    } else if(form.phone1.value == ''){
         alert("핸드폰 번호를 입력해주세요!");
-        form.phone.focus();
+        form.phone1.focus();
+    } else if(form.phone2.value == ''){
+        alert("핸드폰 번호를 입력해주세요!");
+        form.phone2.focus();
+    } else if(form.phone3.value == ''){
+        alert("핸드폰 번호를 입력해주세요!");
+        form.phone3.focus();
     } else if(form.address.value == ''){
         alert("주소를 입력해주세요!");
         form.address.focus();
-    }else if(form.mail.value == ''){
+    } else if(form.mail1.value == ''){
+        alert("메일을 입력해주세요!");
+        form.mail1.focus();
+    } else if(form.mail2.value == ''){
         alert("도메인을 입력해주세요!");
-        form.mail.focus();
+        form.mail2.focus();
     } else {
+        form.phone.value = (form.phone1.value + form.phone2.value + form.phone3.value);
+        form.mail.value =(form.mail1.value + '@'+ form.mail2.value);
 
         form.submit();
     }
