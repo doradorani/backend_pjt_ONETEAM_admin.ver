@@ -36,6 +36,11 @@ dependencies {
 
 	implementation "org.springframework.boot:spring-boot-starter-security"
 
+
+	//Apache POI
+	implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
+
 	// JSON
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'

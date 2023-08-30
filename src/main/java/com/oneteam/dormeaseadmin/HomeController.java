@@ -26,45 +26,4 @@ public class HomeController {
         return "home";
     }
 
-
-//    @Autowired
-//    ApiService apiService;
-//
-//    @Scheduled(cron = "0 45 16 * * *")
-//    @RequestMapping(value = {"", "/"})
-//    public String schoolInfoScheduler(){
-//        StringBuilder result = new StringBuilder();
-//
-//        String str = "%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90";        //고등학교 아스키코드
-//
-//        try {
-//            String apiUrl = "https://open.neis.go.kr/hub/schoolInfo?" +
-//                    "KEY=419ec70ec0d54de6bf489ffa5afe25cf" +
-//                    "&Type=json" +
-//                    "&pIndex=1" +
-//                    "&pSize=4" +
-//                    "&SCHUL_KND_SC_NM=" + str;
-//
-//            URL url = new URL(apiUrl);
-//            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//            urlConnection.setRequestMethod("GET");
-//            BufferedReader br;
-//
-//            br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-//            String returnLine;
-//
-//            while ((returnLine = br.readLine()) != null) {
-//                result.append(returnLine);
-//
-//            }
-//            urlConnection.disconnect();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        apiService.conversion(result.toString());
-//
-//        return "home";
-//    }
 }
