@@ -7,7 +7,10 @@ import java.util.List;
 @Mapper
 public interface IApiMapper {
 
-    public int insertSchoolData(List<SchoolInfoDto> schoolInfoDtos);
+    public int countTable();
+    public void insertSchoolData(List<SchoolInfoDto> schoolInfoDtos);
+    public int updateSchoolInfoStatusFalse();
+    public void updateSchoolData(List<SchoolInfoDto> schoolInfoDtos);
 }
 
 
