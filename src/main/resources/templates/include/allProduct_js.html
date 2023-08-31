@@ -1,0 +1,65 @@
+<script th:fragment="js" type="text/javascript">
+
+  $(document).ready(function(){
+    console.log("allproduct_js READY!!");
+
+      ajax_allProduct();
+  });
+
+  function ajax_allProduct(){
+      console.log('ajax_allProduct()');
+
+      $.ajax({
+          url: '/product/selectAllProduct',
+          method: 'POST',
+          contentType: 'application/json; charset=utf-8',
+          dataType: 'json',
+          success: function(data) {
+              console.log('AJAX SUCCESS - selectAllProduct()');
+
+              if(data.productDtos.length == 0)
+                  alert('상품을 찾을 수 없습니다.');
+
+              else{
+                  $("#selectProduct table").children().remove();
+
+                  for (let i = 0; i < data.productDtos.length; i += 5) {
+                      let appendTag = "<tr>";
+
+                      for (let j = i; j < i + 5 && j < data.productDtos.length; j++) {
+                          appendTag += "<td>";
+                          appendTag += "<a href='#none' class='add_product' data-product-name='" + data.productDtos[j].name;
+                          appendTag += "' data-product-price='" + data.productDtos[j].price + "'>";
+                          appendTag += data.productDtos[j].name + " " + data.productDtos[j].price;
+                          appendTag += "</a>";
+                          appendTag += "</td>";
+                      }
+
+                      appendTag += "</tr>";
+                      $("#selectProduct table").append(appendTag);
+                  }
+              }
+
+          },
+          error: function(data) {
+              console.log('AJAX ERROR - selectAllProduct()');
+
+              alert('상품을 찾을 수 없습니다.');
+          }
+      });
+  }
+
+  function select_product(){
+      console.log("select_product()");
+
+      $(document).on('click', '#selectProduct table tr td a', function(){
+          let appendTag = "<li>";
+          appendTag += '상품 명 : ' + $(this).data('product-name');
+          appendTag += '상품 가격 : ' + $(this).data('product-price');
+          appendTag += "</li>";
+
+          $("#checkedProduct ul").append(appendTag);
+      })
+  }
+
+</script>

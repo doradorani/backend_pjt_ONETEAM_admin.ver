@@ -1,0 +1,50 @@
+<script th:fragment="js" type="text/javascript">
+
+  $(document).ready(function(){
+    console.log("selectProduct_js READY!!");
+
+      select_product();
+      remove_product();
+  });
+
+  function select_product(){
+      console.log("select_product()");
+
+      $(document).on('click', '#selectProduct table tr td a.add_product', function(){
+
+          if(!is_exist_name($(this).data('product-name'))){
+              let appendTag = "<li id='" + $(this).data('product-name') + "'>";
+              appendTag += '상품 명 : ' + $(this).data('product-name');
+              appendTag += '상품 가격 : ' + $(this).data('product-price');
+              appendTag += "<a href='#none' class='remove_product'>X</a>";
+              appendTag += "</li>";
+
+              $("#checkedProduct ul").append(appendTag);
+          }
+          else{
+              alert('이미 추가한 상품입니다.');
+          }
+
+      })
+  }
+
+  function is_exist_name(name){
+      console.log('is_exist_name');
+
+      let exist_id = document.getElementById(name);
+      return exist_id !== null;
+      //exist_id !== null은
+      // exist_id null이 아니라면
+      // 해당 id를 가진 요소가 존재한다는 것을 의미
+  }
+
+  function remove_product(){
+      console.log("remove_product()");
+
+      $(document).on('click', '#checkedProduct ul li  a.remove_product', function(){
+          $(this).closest('li').remove(); //해당 a 버튼과 가장 밀접한 li 삭제
+          alert('삭제하였습니다.');
+      })
+  }
+
+</script>
