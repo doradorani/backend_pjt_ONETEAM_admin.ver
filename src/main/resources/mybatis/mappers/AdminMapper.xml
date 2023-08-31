@@ -3,18 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.oneteam.dormeaseadmin.admin.IAdminMapper">
+<mapper namespace="com.oneteam.dormeaseadmin.admin.member.IAdminMapper">
 
-    <select id="isAdmin" parameterType="String" resultType="Integer">
+    <select id="selectDuplicateByID" parameterType="String" resultType="boolean">
         SELECT
             count(*)
         FROM
-            admin
+            (SELECT
+                 id
+             FROM
+                 student
+             UNION
+             SELECT
+                 id
+             FROM
+                 parents
+             UNION
+             SELECT
+                 id
+             FROM
+                 admin) u
         WHERE
             id = #{id}
     </select>
 
-    <insert id="createAccountConfirm" parameterType="com.oneteam.dormeaseadmin.admin.AdminDto">
+    <insert id="createAccountConfirm" parameterType="com.oneteam.dormeaseadmin.admin.member.AdminDto">
         INSERT INTO
             admin (
                 school_no,
@@ -24,7 +37,10 @@
                 gender,
                 position,
                 phone,
+                zip_code,
                 address,
+                address_detail1,
+                address_detail2,
                 mail,
                 reg_date,
                 mod_date
@@ -37,14 +53,17 @@
             #{gender},
             #{position},
             #{phone},
+            #{zip_code},
             #{address},
+            #{address_detail1},
+            #{address_detail2},
             #{mail},
             NOW(),
             NOW()
         )
     </insert>
 
-    <select id="loginAccountConfirm" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.AdminDto">
+    <select id="loginAccountConfirm" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.member.AdminDto">
         SELECT
             *
         FROM

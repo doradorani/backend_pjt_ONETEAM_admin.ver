@@ -1,9 +1,12 @@
-package com.oneteam.dormeaseadmin.admin;
+package com.oneteam.dormeaseadmin.admin.member;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Log4j2
 @Service
@@ -16,20 +19,21 @@ public class AdminService {
     PasswordEncoder passwordEncoder;
 
     //관리자 계정생성 중복 확인
-    public boolean isAdmin(String id) {
-        log.info("isAdmin()");
+    public Map<String, Object> idDuplicationCheck(String id) {
+        log.info("loginAccountConfirm()");
 
-        return adminMapper.isAdmin(id) > 0 ? true : false;
+        boolean isDuplicateID = adminMapper.selectDuplicateByID(id);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("isDuplicateID", isDuplicateID);
+
+        return map;
     }
 
     //관리자 계정생성 확인
     public int createAccountConfirm(AdminDto adminDto) {
         log.info("createAccountConfirm()");
-
-        if(isAdmin(adminDto.getId())){
-            log.info("Admin ID is already exist");
-            return 0;
-        }
 
         adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
 
@@ -50,4 +54,5 @@ public class AdminService {
 
         return loginedAdminDto;
     }
+
 }
