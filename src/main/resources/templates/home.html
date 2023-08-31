@@ -27,7 +27,10 @@
     </div>
 
     <div>
-        <a th:href="@{/admin/member/modifyAccountForm}">login Account</a>
+        <form method="post" action="/upload/excel" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".xlsx">
+            <button type="submit">Upload</button>
+        </form>
     </div>
 
 
