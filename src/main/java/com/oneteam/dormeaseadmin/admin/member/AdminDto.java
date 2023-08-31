@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class AdminDto {
     private int no;                 // COMMENT '관리자 번호'
-    private int school_no;          // COMMENT '학교 번호'
+    private String school_no;          // COMMENT '학교 번호'
     private String id;              // COMMENT '관리자 아이디'
     private String password;        // COMMENT '관리자 비밀번호'
     private String name;            // COMMENT '관리자 이름'
