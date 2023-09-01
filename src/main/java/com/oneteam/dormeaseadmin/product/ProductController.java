@@ -2,12 +2,10 @@ package com.oneteam.dormeaseadmin.product;
 
 import com.oneteam.dormeaseadmin.admin.member.AdminDto;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -15,8 +13,11 @@ import java.util.Map;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    ProductService productService;
+    //생성자 주입
+    private final ProductService productService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     /*
      * 상품 페이지
@@ -26,7 +27,6 @@ public class ProductController {
         log.info("productHome()");
 
         String nextPage = "product/productHome";
-
         return nextPage;
     }
 

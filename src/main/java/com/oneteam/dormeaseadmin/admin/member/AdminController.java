@@ -2,7 +2,6 @@ package com.oneteam.dormeaseadmin.admin.member;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +13,10 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    AdminService adminService;
+    private final AdminService adminService;
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     /*
      * 관리자 계정생성 폼
@@ -41,7 +42,6 @@ public class AdminController {
         Map<String, Object> map = adminService.idDuplicationCheck(id);
 
         return map;
-
     }
 
 
@@ -82,11 +82,9 @@ public class AdminController {
         AdminDto loginedAdminDto = adminService.loginAccountConfirm(adminDto);
 
         Map<String, Object> map = new HashMap<>();
-
         if(loginedAdminDto != null){
             session.setAttribute("loginedAdminDto", loginedAdminDto);
             session.setMaxInactiveInterval(30*60);
-
             map.put("result", "success");
         } else {
             map.put("result", "fail");
@@ -94,11 +92,4 @@ public class AdminController {
 
         return map;
     }
-
-
-
-
-
-
-
 }
