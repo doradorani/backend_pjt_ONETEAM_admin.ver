@@ -18,12 +18,13 @@
         홈 페이지
     </div>
 
-    <div>
+    <div th:if="${session.loginedAdminDto == null}">
         <a th:href="@{/admin/member/createAccountForm}">create Account</a>
+        <a th:href="@{/admin/member/loginForm}">login</a>
     </div>
 
-    <div>
-        <a th:href="@{/admin/member/loginForm}">login Account</a>
+    <div th:if="${session.loginedAdminDto != null}">
+        <a th:href="@{/admin/member/logoutConfirm}">logout</a>
     </div>
 
     <div>

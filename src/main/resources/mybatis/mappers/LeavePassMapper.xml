@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oneteam.dormeaseadmin.admin.leavePass.ILeavePassMapper">
+    <update id="updateApproveLeavePass" parameterType="Integer">
+        update
+            leave_pass
+        set
+            admin_approval = 1
+        where
+            no = #{no}
+    </update>
+    <select id="selectLeavePassList" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto">
+        select
+            *
+        from
+            leave_pass
+        where
+            school_no = #{schoolNo}
+    </select>
+</mapper>
