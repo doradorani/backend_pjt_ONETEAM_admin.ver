@@ -5,6 +5,18 @@
 
 <mapper namespace="com.oneteam.dormeaseadmin.product.IProductMapper">
 
+    <select id="selectSchoolZipCode" parameterType="com.oneteam.dormeaseadmin.admin.member.AdminDto" resultType="String">
+        SELECT
+            si.zip_code
+        FROM
+            admin a
+        JOIN
+            schoolInfo si
+        ON
+            a.school_no = #{school_no} AND
+            a.school_no = si.school_code
+    </select>
+
     <select id="selectSchoolZipCodeAndName" parameterType="com.oneteam.dormeaseadmin.product.ProductHistoryDto" resultType="com.oneteam.dormeaseadmin.product.ProductHistoryDto">
         SELECT
             si.zip_code,
@@ -15,10 +27,10 @@
             schoolInfo si
         ON
             a.school_no = #{school_no} AND
-            a.school_no = si.school_code ;
+            a.school_no = si.school_code
     </select>
 
-    <insert id="registProductConfirm" parameterType="com.oneteam.dormeaseadmin.product.ProductHistoryDto">
+    <insert id="registProductConfirm" parameterType="java.util.List">
         insert into
             product_history(
                     product_name,
@@ -30,16 +42,19 @@
                     reg_date,
                     mod_date
                     )
-        values(
-               #{product_name},
-               #{product_price},
-               #{zip_code},
-               #{school_name},
-               #{admin_id},
-               #{admin_name},
+        values
+            <foreach collection="list" item="item" separator=", ">
+            (
+               #{item.product_name},
+               #{item.product_price},
+               #{item.zip_code},
+               #{item.school_name},
+               #{item.admin_id},
+               #{item.admin_name},
                NOW(),
                NOW()
               )
+            </foreach>
     </insert>
 
     <select id="selectAllProduct" resultType="com.oneteam.dormeaseadmin.product.ProductDto">
@@ -57,5 +72,17 @@
         WHERE
             name LIKE CONCAT('%', #{productName}, '%')
     </select>
+
+    <select id="isExistDatabase" parameterType="com.oneteam.dormeaseadmin.product.ProductHistoryDto" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            product_history
+        WHERE
+            product_name = #{product_name} AND
+            zip_code = #{zip_code} AND
+            status = 1
+    </select>
+
 
 </mapper>

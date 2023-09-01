@@ -28,16 +28,9 @@
     상품 등록 페이지
   </div>
 
-  <div class="registProductForm">
-    <form th:action="@{/product/registProductConfirm}" name="registProductForm" method="post">
-      <input type="text" name="school_no" th:value="${loginedAdminDto.school_no}"><br>
-      <input type="text" name="admin_id" th:value="${loginedAdminDto.id}"><br>
-      <input type="text" name="admin_name" th:value="${loginedAdminDto.name}"><br>
-      <input type="text" name="admin_grade" th:value="${loginedAdminDto.grade}"><br>
-
+  <div id="registProductForm">
       <input type="text" name="product_name" placeholder="INPUT PRODUCT NAME">
       <input type="button" value="find product" onclick="findProduct();"><br><br>
-    </form>
   </div>
 
   <div id="selectProduct">
@@ -52,10 +45,17 @@
     </ul>
   </div>
 
-  <div>
-    <input type="button" value="regist_product" onclick="findProduct();">
-  </div>
+  <div id="registProduct">
+    <form th:action="@{/product/registProductConfirm}" name="registProductForm" method="post">
+      <input type="hidden" name="school_no" th:value="${loginedAdminDto.school_no}">
+      <input type="hidden" name="admin_id" th:value="${loginedAdminDto.id}">
+      <input type="hidden" name="admin_name" th:value="${loginedAdminDto.name}">
+      <input type="hidden" name="admin_grade" th:value="${loginedAdminDto.grade}">
 
+      <input type="button" value="regist product" onclick="registProductConfirm();">
+    </form>
+
+  </div>
 
 </div>
 

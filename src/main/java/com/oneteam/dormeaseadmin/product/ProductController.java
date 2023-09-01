@@ -1,11 +1,13 @@
 package com.oneteam.dormeaseadmin.product;
 
 import com.oneteam.dormeaseadmin.admin.member.AdminDto;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -34,7 +36,7 @@ public class ProductController {
      * 상품 등록 페이지
      */
     @GetMapping("/registProductForm")
-    public String registProductForm(Model model){
+    public String registProductForm(Model model, HttpSession session){
         log.info("registProductForm()");
 
         String nextPage = "product/registProductForm";
@@ -45,6 +47,8 @@ public class ProductController {
         loginedAdminDto.setName("test1");
         loginedAdminDto.setGrade("admin_001");
 
+        session.setAttribute("loginedAdminDto", loginedAdminDto);
+        session.setMaxInactiveInterval(60 * 30);
         model.addAttribute("loginedAdminDto", loginedAdminDto);
 
         return nextPage;
@@ -54,15 +58,17 @@ public class ProductController {
      * 상품 등록 페이지
      */
     @PostMapping("/registProductConfirm")
-    public String registProductConfirm(ProductHistoryDto productHistoryDto){
+    public String registProductConfirm(ProductHistoryDto productHistoryDto,
+                                       @RequestParam("name") List<String> name,
+                                       @RequestParam("price") List<Integer> price){
         log.info("registProductConfirm()");
 
-        int result = productService.registProductConfirm(productHistoryDto);
+        int result = productService.registProductConfirm(productHistoryDto, name, price);
 
         return "redirect:/product";
     }
 
-    /*
+    /*s
      * 전체 상품 조회(ajax)
      */
     @PostMapping("/selectAllProduct")
@@ -86,6 +92,22 @@ public class ProductController {
         String productName = msgMap.get("name");
 
         Map<String, Object> resultMap = productService.selectProduct(productName);
+
+        return resultMap;
+    }
+
+    /*
+     * 이미 등록 상품 여부 (ajax)
+     */
+    @PostMapping("/isExistDatabase")
+    @ResponseBody
+    public Object isExistDatabase(@RequestBody Map<String ,String> msgMap, HttpSession session){
+        log.info("isExistDatabase()");
+
+        String productName = msgMap.get("name");
+
+        Map<String, Object> resultMap = productService.isExistDatabase(productName,
+                                                        (AdminDto) session.getAttribute("loginedAdminDto"));
 
         return resultMap;
     }
