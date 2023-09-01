@@ -12,11 +12,13 @@ import java.util.Map;
 @Service
 public class AdminService {
 
-    @Autowired
-    IAdminMapper adminMapper;
+    private final IAdminMapper adminMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    public AdminService(IAdminMapper adminMapper, PasswordEncoder passwordEncoder) {
+        this.adminMapper = adminMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     //관리자 계정생성 중복 확인
     public Map<String, Object> idDuplicationCheck(String id) {
@@ -25,9 +27,7 @@ public class AdminService {
         boolean isDuplicateID = adminMapper.selectDuplicateByID(id);
 
         Map<String, Object> map = new HashMap<>();
-
         map.put("isDuplicateID", isDuplicateID);
-
         return map;
     }
 
@@ -36,7 +36,6 @@ public class AdminService {
         log.info("createAccountConfirm()");
 
         adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-
         return adminMapper.createAccountConfirm(adminDto);
     }
 
@@ -51,7 +50,6 @@ public class AdminService {
                 loginedAdminDto = null;
             }
         }
-
         return loginedAdminDto;
     }
 

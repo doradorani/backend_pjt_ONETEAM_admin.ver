@@ -1,7 +1,6 @@
 package com.oneteam.dormeaseadmin.product;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,15 +11,16 @@ import java.util.Map;
 @Service
 public class ProductService {
 
-    @Autowired
-    IProductMapper productMapper;
+    private final IProductMapper productMapper;
+    public ProductService(IProductMapper productMapper) {
+        this.productMapper = productMapper;
+    }
 
     // 상품 등록
     public int registProductConfirm(ProductHistoryDto productHistoryDto) {
         log.info("registProductConfirm()");
 
         ProductHistoryDto addData = productMapper.selectSchoolZipCodeAndName(productHistoryDto);
-
         productHistoryDto.setZip_code(addData.getZip_code());
         productHistoryDto.setSchool_name(addData.getSchool_name());
 
@@ -33,7 +33,6 @@ public class ProductService {
 
         Map<String, Object> map = new HashMap<>();
         List<ProductDto> productDtos = productMapper.selectAllProduct();
-
         map.put("productDtos", productDtos);
 
         return map;
@@ -45,7 +44,6 @@ public class ProductService {
 
         Map<String, Object> map = new HashMap<>();
         List<ProductDto> productDtos = productMapper.selectProduct(productName);
-
         map.put("productDtos", productDtos);
 
         return map;
