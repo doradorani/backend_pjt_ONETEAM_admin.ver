@@ -1,6 +1,6 @@
 package com.oneteam.dormeaseadmin.product;
 
-import com.oneteam.dormeaseadmin.admin.member.AdminDto;
+import com.oneteam.dormeaseadmin.admin.member.MemberDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -66,13 +66,13 @@ public class ProductService {
     }
 
     //상품 검색
-    public Map<String, Object> isExistDatabase(String productName, AdminDto loginedAdminDto) {
+    public Map<String, Object> isExistDatabase(String productName, MemberDto loginedMemberDto) {
         log.info("isExistDatabase()");
 
         Map<String, Object> map = new HashMap<>();
         ProductHistoryDto productHistoryDto = new ProductHistoryDto();
         productHistoryDto.setProduct_name(productName);
-        productHistoryDto.setZip_code(productMapper.selectSchoolZipCode(loginedAdminDto));
+        productHistoryDto.setZip_code(productMapper.selectSchoolZipCode(loginedMemberDto));
 
         int countExist = productMapper.isExistDatabase(productHistoryDto);
         map.put("countExist", countExist);

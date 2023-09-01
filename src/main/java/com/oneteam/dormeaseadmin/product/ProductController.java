@@ -1,6 +1,6 @@
 package com.oneteam.dormeaseadmin.product;
 
-import com.oneteam.dormeaseadmin.admin.member.AdminDto;
+import com.oneteam.dormeaseadmin.admin.member.MemberDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -41,15 +41,15 @@ public class ProductController {
 
         String nextPage = "product/registProductForm";
 
-        AdminDto loginedAdminDto = new AdminDto();
-        loginedAdminDto.setSchool_no("7004207");
-        loginedAdminDto.setId("test1");
-        loginedAdminDto.setName("test1");
-        loginedAdminDto.setGrade("admin_001");
+        MemberDto loginedMemberDto = new MemberDto();
+        loginedMemberDto.setSchool_no("7004207");
+        loginedMemberDto.setId("test1");
+        loginedMemberDto.setName("test1");
+        loginedMemberDto.setGrade("admin_001");
 
-        session.setAttribute("loginedAdminDto", loginedAdminDto);
+        session.setAttribute("loginedMemberDto", loginedMemberDto);
         session.setMaxInactiveInterval(60 * 30);
-        model.addAttribute("loginedAdminDto", loginedAdminDto);
+        model.addAttribute("loginedMemberDto", loginedMemberDto);
 
         return nextPage;
     }
@@ -107,7 +107,7 @@ public class ProductController {
         String productName = msgMap.get("name");
 
         Map<String, Object> resultMap = productService.isExistDatabase(productName,
-                                                        (AdminDto) session.getAttribute("loginedAdminDto"));
+                                                        (MemberDto) session.getAttribute("loginedMemberDto"));
 
         return resultMap;
     }
