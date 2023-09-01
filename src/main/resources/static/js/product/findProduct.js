@@ -1,14 +1,14 @@
 function findProduct(){
     console.log('findProduct()');
 
-    let form = document.registProductForm;
+    let findProductName = $("#registProductForm input[type='text']").val();
 
-    if(form.product_name.value == ''){
+    if(findProductName == ''){
         alert('Input Please Product');
-        form.product_name.focus();
+        findProductName.focus();
     }
     else {
-        ajax_addProduct(form.product_name.value);
+        ajax_addProduct(findProductName);
     }
 }
 
