@@ -1,7 +1,6 @@
 package com.oneteam.dormeaseadmin.admin.member;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +9,12 @@ import java.util.Map;
 
 @Log4j2
 @Service
-public class AdminService {
+public class MemberService {
 
-    private final IAdminMapper adminMapper;
+    private final IMemberMapper adminMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public AdminService(IAdminMapper adminMapper, PasswordEncoder passwordEncoder) {
+    public MemberService(IMemberMapper adminMapper, PasswordEncoder passwordEncoder) {
         this.adminMapper = adminMapper;
         this.passwordEncoder = passwordEncoder;
     }
@@ -32,7 +31,7 @@ public class AdminService {
     }
 
     //관리자 계정생성 확인
-    public int createAccountConfirm(AdminDto adminDto) {
+    public int createAccountConfirm(MemberDto adminDto) {
         log.info("createAccountConfirm()");
 
         adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
@@ -40,10 +39,10 @@ public class AdminService {
     }
 
     //관리자 로그인 확인
-    public AdminDto loginAccountConfirm(AdminDto adminDto) {
+    public MemberDto loginAccountConfirm(MemberDto adminDto) {
         log.info("loginAccountConfirm()");
 
-        AdminDto loginedAdminDto = adminMapper.loginAccountConfirm(adminDto.getId());
+        MemberDto loginedAdminDto = adminMapper.loginAccountConfirm(adminDto.getId());
 
         if(loginedAdminDto != null){
             if (!passwordEncoder.matches(adminDto.getPassword(), loginedAdminDto.getPassword())) {
