@@ -4,7 +4,7 @@ import com.github.rkpunjal.sqlsafe.SQLInjectionSafe;
 import lombok.Data;
 
 @Data
-public class AdminDto {
+public class MemberDto {
     private @SQLInjectionSafe int no;                 // COMMENT '관리자 번호'
     private @SQLInjectionSafe String school_no;          // COMMENT '학교 번호'
     private @SQLInjectionSafe String id;              // COMMENT '관리자 아이디'

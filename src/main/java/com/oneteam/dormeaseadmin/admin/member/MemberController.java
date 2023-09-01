@@ -10,18 +10,19 @@ import java.util.Map;
 
 @Log4j2
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/admin/member")
+public class MemberController {
 
-    private final AdminService adminService;
-    public AdminController(AdminService adminService) {
+    private final MemberService adminService;
+
+    public MemberController(MemberService adminService) {
         this.adminService = adminService;
     }
 
     /*
      * 관리자 계정생성 폼
      */
-    @GetMapping("/member/createAccountForm")
+    @GetMapping("/createAccountForm")
     public String createAccountForm(){
         log.info("createAccountForm()");
 
@@ -34,7 +35,7 @@ public class AdminController {
      * 아이디 중복 여부 체크
      */
 
-    @GetMapping("/member/idDuplicationCheck")
+    @GetMapping("/idDuplicationCheck")
     @ResponseBody
     public Object idDuplicationCheck(@RequestParam String id) {
         log.info("idDuplicationCheck()");
@@ -48,8 +49,8 @@ public class AdminController {
     /*
      * 관리자 계정생성 확인
      */
-    @PostMapping("/member/createAccountConfirm")
-    public String createAccountConfirm(AdminDto adminDto){
+    @PostMapping("/createAccountConfirm")
+    public String createAccountConfirm(MemberDto adminDto){
         log.info("createAccountConfirm()");
 
         String nextPage = "redirect:/";
@@ -62,7 +63,7 @@ public class AdminController {
     /*
      * 관리자 로그인 폼
      */
-    @GetMapping("/member/loginForm")
+    @GetMapping("/loginForm")
     public String loginForm(){
         log.info("loginForm()");
 
@@ -74,12 +75,12 @@ public class AdminController {
     /*
      * 관리자 로그인 확인
      */
-    @PostMapping("/member/loginConfirm")
+    @PostMapping("/loginConfirm")
     @ResponseBody
-    public Object loginConfirm(AdminDto adminDto, HttpSession session){
+    public Object loginConfirm(MemberDto adminDto, HttpSession session){
         log.info("loginConfirm()");
 
-        AdminDto loginedAdminDto = adminService.loginAccountConfirm(adminDto);
+        MemberDto loginedAdminDto = adminService.loginAccountConfirm(adminDto);
 
         Map<String, Object> map = new HashMap<>();
         if(loginedAdminDto != null){
@@ -92,4 +93,8 @@ public class AdminController {
 
         return map;
     }
+
+
+
+
 }

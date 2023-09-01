@@ -1,6 +1,6 @@
 package com.oneteam.dormeaseadmin.product;
 
-import com.oneteam.dormeaseadmin.admin.member.AdminDto;
+import com.oneteam.dormeaseadmin.admin.member.MemberDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +39,7 @@ public class ProductController {
 
         String nextPage = "product/registProductForm";
 
-        AdminDto loginedAdminDto = new AdminDto();
+        MemberDto loginedAdminDto = new MemberDto();
         loginedAdminDto.setSchool_no("7004207");
         loginedAdminDto.setId("test1");
         loginedAdminDto.setName("test1");
