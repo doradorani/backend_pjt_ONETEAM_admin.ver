@@ -15,15 +15,30 @@ public class LeavePassService {
         this.leavePassMapper = leavePassMapper;
     }
 
+    public int modifyLeavePassConfirm(LeavePassDto leavePassDto) {
+        log.info("modifyLeavePassConfirm()");
+
+        int result = leavePassMapper.updateLeavePass(leavePassDto);
+
+        return 0;
+    }
+
     public List<LeavePassDto> leaveOutList(String schoolNo) {
         log.info("leaveOutList()");
 
         return leavePassMapper.selectLeavePassList(schoolNo);
     }
     public List<LeavePassDto> approveLeavePass(int no, String schoolNo) {
-        log.info("approveLeavePass");
+        log.info("approveLeavePass()");
         leavePassMapper.updateApproveLeavePass(no);
 
         return leavePassMapper.selectLeavePassList(schoolNo);
+    }
+
+    public LeavePassDto modifyLeavePassForm(int no) {
+        log.info("modifyLeavePassForm()");
+        LeavePassDto leavePassDto = leavePassMapper.selectLeavePassByNo(no);
+
+        return leavePassDto;
     }
 }

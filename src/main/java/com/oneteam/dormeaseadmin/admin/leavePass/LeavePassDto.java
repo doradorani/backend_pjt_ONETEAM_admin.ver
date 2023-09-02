@@ -7,6 +7,7 @@ import lombok.Data;
 public class LeavePassDto {
     private @SQLInjectionSafe int no;                     // COMMENT '외출증 번호'
     private @SQLInjectionSafe int school_no;              // COMMENT '학교 번호'
+    private @SQLInjectionSafe String school_name;         // COMMENT '학교 이름'
     private @SQLInjectionSafe String parent_phone;        // COMMENT '학부모 전화번호'
     private @SQLInjectionSafe String dormitory;           // COMMENT '기숙사 호실'
     private @SQLInjectionSafe int student_no;             // COMMENT '학생 번호'

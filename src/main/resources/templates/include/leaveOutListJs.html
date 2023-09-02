@@ -1,4 +1,4 @@
-<script th:fragment="js" type="text/javascript">
+<script th:fragment="js" th:inline="javascript" type="text/javascript">
 
 
   $(document).ready(function() {
@@ -31,9 +31,14 @@
     $("a.sendMessage").on('click', function (){
         console.log("sendMessage CLICK HANDLER()!!!!");
 
-        let parent_phone = $(this).data("parent_phone");
+        let no = Number($(this).data("no"));
 
-        ajax_sendMessage(parent_phone);
+        ajax_sendMessage(no);
+
+    }); $("a.allSendMessages").on('click', function (){
+        console.log("allSendMessages CLICK HANDLER()!!!!");
+
+        ajax_allSendMessages();
 
     });
   }
@@ -78,6 +83,7 @@
                   } else {
                       appendTag += "<td>승인완료</td>";
                   }
+                  appendTag += "<td><a class='sendMessage' href='' data-no=" + leavePassDto[i].no + ">복귀</a></td>";
                   appendTag += "</tr>";
               }
               $("#sectionWrap table > tbody").append(appendTag);
@@ -90,20 +96,28 @@
       });
   }
 
-  function ajax_sendMessage(parent_phone) {
+  function ajax_sendMessage(no) {
       console.log("ajax_sendMessage() CALLED!!!");
 
-      msgDto={
-          'to': parent_phone,
-          'content': '학생이 복귀했습니다.',
-      }
+      let leavePassDtos = [[${leavePassDtos}]];
+      no = leavePassDtos.length - no;
+
+      let to = leavePassDtos[no].parent_phone;
+      let student_name = leavePassDtos[no].student_name;
+      let school_name= leavePassDtos[no].school_name;
+      let content = "["+school_name + "] \n" + "["+student_name+ "] 님이 안전하게 복귀했습니다.";
+
+      let formData = new FormData();
+      formData.append("no", no + 1);
+      formData.append("to", to);
+      formData.append("content", content);
 
       $.ajax({
           url: '/sms/sendMessages',
           type: 'POST',
-          data: msgDto,
-          contentType: 'application/json; charset=utf-8',
-          dataType: 'json',
+          data: formData,
+          contentType: false,
+          processData: false,
           success: function(data) {
               console.log('AJAX SUCCESS - ajax_sendMessage()');
 
@@ -116,32 +130,22 @@
                   alert("메시지 전송에 실패하였습니다.");
               }
 
-              //
-              // let leavePassDtos = data.leavePassDtos;
-              //
-              // let appendTag = "";
-              // $("#sectionWrap  table > tbody").children().remove();
-              // for (let i = 0; i < leavePassDtos.length; i++){
-              //     appendTag += "<tr>";
-              //     appendTag += "<td>" + leavePassDtos[i].student_name + "</td>";
-              //     appendTag += "<td>" + leavePassDtos[i].student_id + "</td>";
-              //     appendTag += "<td>" + leavePassDtos[i].grade + "</td>";
-              //     appendTag += "<td>" + leavePassDtos[i].dormitory + "</td>";
-              //     appendTag += "<td>" + leavePassDtos[i].content + "</td>";
-              //     appendTag += "<td>" + leavePassDtos[i].start_date + "</td>";
-              //     appendTag += "<td>" + leavePassDtos[i].start_date + "</td>";
-              //     appendTag += "<td>" + leavePassDtos[i].end_date + "</td>";
-              //     appendTag += "<td<a class='modifyLeavePass' href='#none' data-no=" + leavePassDtos[i].no + ">수정</a></td>";
-              //     if(leavePassDtos.admin_approval == '0'){
-              //         appendTag += "<td><a class='approveLeavePass' href='#none' data-no="+leavePassDtos[i].no+">승인</a></td>";
-              //     } else {
-              //         appendTag += "<td>승인완료</td>";
-              //     }
-              //     appendTag += "<td<a class='sendMessage' href='#none' data-parent_phone=" + leavePassDtos[i].parent_phone + ">복귀</a></td>";
-              //     appendTag += "</tr>";
-              // }
-              // $("#sectionWrap table > tbody").append(appendTag);
+          },
+          error: function(data) {
+              console.log('AJAX ERROR - ajax_sendMessage()');
+          }
+      });
+  }
+  function ajax_allSendMessages() {
+      console.log("ajax_sendMessage() CALLED!!!");
 
+      $.ajax({
+          url: '/sms/allSendMessages',
+          type: 'GET',
+          success: function(data) {
+              console.log('AJAX SUCCESS - ajax_sendMessage()');
+
+              console.log(data);
 
           },
           error: function(data) {

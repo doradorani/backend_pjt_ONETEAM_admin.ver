@@ -5,10 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +27,6 @@ public class LeavePassController {
         log.info("leaveOutList()");
         String nextPage = "admin/leaveOutList";
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
-        log.info("=========={}", loginedMemberDto.getSchool_no());
         List<LeavePassDto> leavePassDtos = leavePassService.leaveOutList(loginedMemberDto.getSchool_no());
         model.addAttribute("leavePassDtos", leavePassDtos);
 
@@ -47,10 +43,22 @@ public class LeavePassController {
 
         return map;
     }
-    @GetMapping("/modifyLeavePass")
-    public Object modifyLeavePass(@RequestParam int no){
-        log.info("modifyLeavePass()");
 
-        return null;
+    @GetMapping("/modifyLeavePassForm")
+    public String modifyLeavePassForm(@RequestParam int no, Model model){
+        log.info("modifyLeavePassForm()");
+        String nextPage = "leavePass/modifyLeavePassForm";
+        LeavePassDto leavePassDto = leavePassService.modifyLeavePassForm(no);
+        model.addAttribute("leavePassDto", leavePassDto);
+
+        return nextPage;
+    }
+    @PostMapping("/modifyLeavePassConfirm")
+    public String modifyLeavePassConfirm(LeavePassDto leavePassDto){
+        log.info("modifyLeavePassConfirm()");
+        String nextPage = "redirect:/leavePass/leaveOutList";
+        int result = leavePassService.modifyLeavePassConfirm(leavePassDto);
+
+        return nextPage;
     }
 }
