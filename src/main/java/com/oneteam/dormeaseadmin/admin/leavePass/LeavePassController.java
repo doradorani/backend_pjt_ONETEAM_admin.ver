@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @Log4j2
-@RequestMapping("/admin/leavePass")
+@RequestMapping("/leavePass")
 public class LeavePassController {
 
     private final LeavePassService leavePassService;
@@ -29,8 +29,9 @@ public class LeavePassController {
     public String leaveOutList(Model model, HttpSession session){
         log.info("leaveOutList()");
         String nextPage = "admin/leaveOutList";
-        MemberDto loginedAdminDto = (MemberDto) session.getAttribute("loginedAdminDto");
-        List<LeavePassDto> leavePassDtos = leavePassService.leaveOutList(loginedAdminDto.getSchool_no());
+        MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
+        log.info("=========={}", loginedMemberDto.getSchool_no());
+        List<LeavePassDto> leavePassDtos = leavePassService.leaveOutList(loginedMemberDto.getSchool_no());
         model.addAttribute("leavePassDtos", leavePassDtos);
 
         return nextPage;
@@ -39,9 +40,9 @@ public class LeavePassController {
     @ResponseBody
     public Object approveLeavePass(HttpSession session, @RequestParam int no){
         log.info("approveLeavePass()");
-        MemberDto loginedAdminDto = (MemberDto) session.getAttribute("loginedAdminDto");
+        MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
         Map<String, Object> map = new HashMap<>();
-        List<LeavePassDto> leavePassDtos = leavePassService.approveLeavePass(no, loginedAdminDto.getSchool_no());
+        List<LeavePassDto> leavePassDtos = leavePassService.approveLeavePass(no, loginedMemberDto.getSchool_no());
         map.put("leavePassDtos", leavePassDtos);
 
         return map;

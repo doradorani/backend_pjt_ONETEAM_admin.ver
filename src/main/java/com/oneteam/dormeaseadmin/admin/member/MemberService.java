@@ -31,25 +31,25 @@ public class MemberService {
     }
 
     //관리자 계정생성 확인
-    public int createAccountConfirm(MemberDto adminDto) {
+    public int createAccountConfirm(MemberDto memberDto) {
         log.info("createAccountConfirm()");
 
-        adminDto.setPassword(passwordEncoder.encode(adminDto.getPassword()));
-        return adminMapper.createAccountConfirm(adminDto);
+        memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+        return adminMapper.createAccountConfirm(memberDto);
     }
 
     //관리자 로그인 확인
-    public MemberDto loginAccountConfirm(MemberDto adminDto) {
-        log.info("loginAccountConfirm()");
+    public MemberDto loginConfirm(MemberDto memberDto) {
+        log.info("loginConfirm()");
 
-        MemberDto loginedAdminDto = adminMapper.loginAccountConfirm(adminDto.getId());
+        MemberDto loginedMemberDto = adminMapper.loginConfirm(memberDto.getId());
 
-        if(loginedAdminDto != null){
-            if (!passwordEncoder.matches(adminDto.getPassword(), loginedAdminDto.getPassword())) {
-                loginedAdminDto = null;
+        if(loginedMemberDto != null){
+            if (!passwordEncoder.matches(memberDto.getPassword(), loginedMemberDto.getPassword())) {
+                loginedMemberDto = null;
             }
         }
-        return loginedAdminDto;
+        return loginedMemberDto;
     }
 
 }

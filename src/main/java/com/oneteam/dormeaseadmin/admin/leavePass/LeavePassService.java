@@ -16,7 +16,7 @@ public class LeavePassService {
     }
 
     public List<LeavePassDto> leaveOutList(String schoolNo) {
-        log.info("leaveOutList");
+        log.info("leaveOutList()");
 
         return leavePassMapper.selectLeavePassList(schoolNo);
     }

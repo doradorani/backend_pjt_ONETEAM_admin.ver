@@ -14,10 +14,14 @@
     </update>
     <select id="selectLeavePassList" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto">
         select
-            *
+            l.*,
+            p.phone as parent_phone
         from
-            leave_pass
+            leave_pass l
+        join
+            parents p
+        on l.student_no = p.student_no
         where
-            school_no = #{schoolNo}
+            l.school_no = #{schoolNo}
     </select>
 </mapper>

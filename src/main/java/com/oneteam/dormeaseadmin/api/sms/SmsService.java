@@ -27,7 +27,7 @@ import java.util.List;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class SMSService {
+public class SmsService {
 
     @Value("${naver-cloud-sms.accessKey}")
     private String accessKey;
@@ -74,7 +74,9 @@ public class SMSService {
         return encodeBase64String;
 
         }
-    public SMSResponseDTO sendSms(SMSDTO smsdto) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+
+
+    public SmsResponseDTO sendMessages(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
         Long time = System.currentTimeMillis();
 
         HttpHeaders headers = new HttpHeaders();
@@ -83,15 +85,15 @@ public class SMSService {
         headers.set("x-ncp-iam-access-key", accessKey);
         headers.set("x-ncp-apigw-signature-v2", makeSignature(time));
 
-        List<SMSDTO> messages = new ArrayList<>();
-        messages.add(smsdto);
+        List<SmsDTO> messages = new ArrayList<>();
+        messages.add(smsDTO);
 
-        SMSRequestDTO request = SMSRequestDTO.builder()
+        SmsRequestDTO request = SmsRequestDTO.builder()
                 .type("SMS")
                 .contentType("COMM")
                 .countryCode("82")
                 .from(phone)
-                .content(smsdto.getContent())
+                .content(smsDTO.getContent())
                 .messages(messages)
                 .build();
 
@@ -101,7 +103,7 @@ public class SMSService {
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-        SMSResponseDTO response = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SMSResponseDTO.class);
+        SmsResponseDTO response = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SmsResponseDTO.class);
 
         return response;
     }

@@ -67,7 +67,8 @@ dependencies {
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
 	// HTTPCOMPONENTS (NAVER CLOUD SMS)
-	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
+	implementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
 }
 
 tasks.named('test') {

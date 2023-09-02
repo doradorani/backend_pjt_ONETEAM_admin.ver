@@ -77,14 +77,14 @@ public class MemberController {
      */
     @PostMapping("/loginConfirm")
     @ResponseBody
-    public Object loginConfirm(MemberDto adminDto, HttpSession session){
+    public Object loginConfirm(MemberDto memberDto, HttpSession session){
         log.info("loginConfirm()");
 
-        MemberDto loginedAdminDto = adminService.loginAccountConfirm(adminDto);
+        MemberDto loginedMemberDto = adminService.loginConfirm(memberDto);
 
         Map<String, Object> map = new HashMap<>();
-        if(loginedAdminDto != null){
-            session.setAttribute("loginedAdminDto", loginedAdminDto);
+        if(loginedMemberDto != null){
+            session.setAttribute("loginedMemberDto", loginedMemberDto);
             session.setMaxInactiveInterval(30*60);
             map.put("result", "success");
         } else {

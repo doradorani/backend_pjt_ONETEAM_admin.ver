@@ -11,11 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SMSRequestDTO {
+public class SmsRequestDTO {
     String type;
     String contentType;
     String countryCode;
     String from;
     String content;
-    List<SMSDTO> messages;
+    List<SmsDTO> messages;
 }
