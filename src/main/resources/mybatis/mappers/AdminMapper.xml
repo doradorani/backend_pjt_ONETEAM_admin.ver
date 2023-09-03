@@ -63,22 +63,13 @@
         )
     </insert>
 
-    <select id="loginAccountConfirm" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.member.MemberDto">
+    <select id="loginConfirm" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.member.MemberDto">
         SELECT
             *
         FROM
             admin
         WHERE
             id = #{id}
-    </select>
-
-    <select id="selectLeavePassList" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto">
-        select
-            *
-        from
-            leave_pass
-        where
-            school_no = #{schoolNo}
     </select>
 
 </mapper>

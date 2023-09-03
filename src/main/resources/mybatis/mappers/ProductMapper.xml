@@ -5,7 +5,7 @@
 
 <mapper namespace="com.oneteam.dormeaseadmin.product.IProductMapper">
 
-    <select id="selectSchoolZipCode" parameterType="com.oneteam.dormeaseadmin.admin.member.AdminDto" resultType="String">
+    <select id="selectSchoolZipCode" parameterType="com.oneteam.dormeaseadmin.admin.member.MemberDto" resultType="String">
         SELECT
             si.zip_code
         FROM

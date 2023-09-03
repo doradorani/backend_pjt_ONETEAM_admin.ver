@@ -10,6 +10,5 @@ public interface IMemberMapper {
 
     boolean selectDuplicateByID(String id);
     int createAccountConfirm(MemberDto adminDto);
-    MemberDto loginAccountConfirm(String id);
-    List<LeavePassDto> selectLeavePassList(String schoolNo);
+    MemberDto loginConfirm(String id);
 }

@@ -13,11 +13,59 @@
             no = #{no}
     </update>
     <select id="selectLeavePassList" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto">
-        select
-            *
-        from
+        SELECT
+            l.*,
+            p.phone as parent_phone,
+            s.school_name
+        FROM
+            leave_pass l
+                JOIN
+            parents p
+            ON l.student_no = p.student_no
+                JOIN
+            schoolInfo s
+            ON l.school_no = s.school_code
+        WHERE
+            l.school_no = #{schoolNo}
+    </select>
+    <select id="selectLeavePassByNo" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto">
+        SELECT
+            l.*,
+            p.phone as parent_phone,
+            s.school_name
+        FROM
+            leave_pass l
+                JOIN
+            parents p
+            ON l.student_no = p.student_no
+                JOIN
+            schoolInfo s
+            ON l.school_no = s.school_code
+        WHERE
+            l.school_no = #{schoolNo}
+    </select>
+    <update id="updateLeavePassByNo" parameterType="Integer">
+        update
             leave_pass
+        set
+            comeback_date = now()
         where
-            school_no = #{schoolNo}
+            no = #{no}
+    </update>
+    <select id="selectLeavePassBySchoolNo" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto">
+        SELECT
+            l.*,
+            p.phone as parent_phone,
+            s.school_name
+        FROM
+            leave_pass l
+                JOIN
+            parents p
+            ON l.student_no = p.student_no
+                JOIN
+            schoolInfo s
+            ON l.school_no = s.school_code
+        WHERE
+            l.school_no = #{schoolNo} AND l.comeback_date = '1000-01-01'
     </select>
 </mapper>

@@ -1,4 +1,4 @@
-<script th:fragment="js" type="text/javascript">
+<script th:fragment="js" th:inline="javascript" type="text/javascript">
 
 
   $(document).ready(function() {
@@ -7,6 +7,7 @@
     initEvent();
 
   });
+
 
   function initEvent() {
     console.log("initEvent() CALLED!!!");
@@ -27,6 +28,19 @@
         ajax_approveLeavePass(no);
 
     });
+    $("a.sendMessage").on('click', function (){
+        console.log("sendMessage CLICK HANDLER()!!!!");
+
+        let no = Number($(this).data("no"));
+
+        ajax_sendMessage(no);
+
+    }); $("a.allSendMessages").on('click', function (){
+        console.log("allSendMessages CLICK HANDLER()!!!!");
+
+        ajax_allSendMessages();
+
+    });
   }
 
 
@@ -41,7 +55,7 @@
       }
 
       $.ajax({
-          url: '/admin/leavePass/approveLeavePass',
+          url: '/leavePass/approveLeavePass',
           type: 'GET',
           data: msgDto,
           contentType: 'application/json; charset=utf-8',
@@ -69,6 +83,7 @@
                   } else {
                       appendTag += "<td>승인완료</td>";
                   }
+                  appendTag += "<td><a class='sendMessage' href='' data-no=" + leavePassDto[i].no + ">복귀</a></td>";
                   appendTag += "</tr>";
               }
               $("#sectionWrap table > tbody").append(appendTag);
@@ -77,6 +92,64 @@
           },
           error: function(data) {
               console.log('AJAX ERROR - ajax_approveLeavePass()');
+          }
+      });
+  }
+
+  function ajax_sendMessage(no) {
+      console.log("ajax_sendMessage() CALLED!!!");
+
+      let leavePassDtos = [[${leavePassDtos}]];
+      no = leavePassDtos.length - no;
+
+      let to = leavePassDtos[no].parent_phone;
+      let student_name = leavePassDtos[no].student_name;
+      let school_name= leavePassDtos[no].school_name;
+      let content = "["+school_name + "] \n" + "["+student_name+ "] 님이 안전하게 복귀했습니다.";
+
+      let formData = new FormData();
+      formData.append("no", no + 1);
+      formData.append("to", to);
+      formData.append("content", content);
+
+      $.ajax({
+          url: '/sms/sendMessages',
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function(data) {
+              console.log('AJAX SUCCESS - ajax_sendMessage()');
+
+              let response  = data.response;
+              console.log(response.statusCode);
+
+              if(response.statusCode == '202'){
+                  alert("메시지를 발송하였습니다.");
+              }else {
+                  alert("메시지 전송에 실패하였습니다.");
+              }
+
+          },
+          error: function(data) {
+              console.log('AJAX ERROR - ajax_sendMessage()');
+          }
+      });
+  }
+  function ajax_allSendMessages() {
+      console.log("ajax_sendMessage() CALLED!!!");
+
+      $.ajax({
+          url: '/sms/allSendMessages',
+          type: 'GET',
+          success: function(data) {
+              console.log('AJAX SUCCESS - ajax_sendMessage()');
+
+              console.log(data);
+
+          },
+          error: function(data) {
+              console.log('AJAX ERROR - ajax_sendMessage()');
           }
       });
   }
