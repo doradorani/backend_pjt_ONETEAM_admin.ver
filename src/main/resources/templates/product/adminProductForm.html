@@ -25,14 +25,16 @@
   </div>
 
   <div id="adminProductForm">
-    <form th:action="@{/product/adminProductConfirm}" name="adminProductForm" method="post">
+    <form th:action="@{/product/adminProductConfirm}" name="adminProductForm" method="post" enctype="multipart/form-data">
       <input type="hidden" name="admin_id" th:value="${loginedMemberDto.id}">
       <input type="hidden" name="admin_name" th:value="${loginedMemberDto.name}">
 
       <input type="text" name="name" placeholder="INPUT PRODUCT NAME"><br>
       <input type="text" name="price" placeholder="INPUT PRODUCT PRICE"><br>
+      <input type="file" name="file" placeholder="SELECT IMAGE FILE"><br>
 
       <input type="button" value="regist product" onclick="adminProductConfirm();">
+      <input type="reset" value="reset">
     </form>
   </div>
 

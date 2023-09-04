@@ -37,6 +37,4 @@ public interface IProductMapper {
     //전체 관리자용
     public List<ProductNoticeDto> productNoticeList(ProductListDto productListDto);
     public int productNoticeListCnt(String keyWord);
-
-//    public int adminSelectListTotalCnt(String name);
 }

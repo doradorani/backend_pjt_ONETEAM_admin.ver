@@ -22,6 +22,7 @@ public class ProductService {
 
     // 상품 등록 확인 (학교 관리자 용)
     public int registProductConfirm(ProductRegistDto productRegistDto,
+                                    List<String> img,
                                     List<String> name,
                                     List<Integer> price) {
         log.info("registProductConfirm()");
@@ -31,16 +32,21 @@ public class ProductService {
         ProductRegistDto addData = productMapper.selectSchoolZipCodeAndName(productRegistDto);
 
         for(int i=0; i<name.size(); i++){
+
             ProductRegistDto phDto = new ProductRegistDto();
             phDto.setZip_code(addData.getZip_code());
             phDto.setSchool_name(addData.getSchool_name());
             phDto.setAdmin_id((productRegistDto.getAdmin_id()));
             phDto.setAdmin_name(productRegistDto.getAdmin_name());
+            phDto.setImg(img.get(i));
             phDto.setProduct_name(name.get(i));
             phDto.setProduct_price(price.get(i));
 
             productRegistDtos.add(phDto);
         }
+
+        System.out.println("productRegistDtos ==> " + productRegistDtos);
+
         return productMapper.registProductConfirm(productRegistDtos);
     }
 
@@ -199,27 +205,5 @@ public class ProductService {
 
         return list;
     }
-
-    /*//등록 상품 검색 (최종 관리자 용)
-    public Map<String, Object> searchAdminProductConfirm(String name, int pageNum, int amount) {
-        log.info("searchAdminProductConfirm()");
-
-        Map<String, Object> list = new HashMap<>();
-
-        Criteria criteria = new Criteria(pageNum, amount);
-        ProductListDto productListDto = new ProductListDto(name, criteria.getSkip(), amount);
-        List<ProductDto> productDtos = productMapper.searchAdminProductConfirm(productListDto);
-        int totalCnt = productMapper.adminSelectListTotalCnt(name);
-
-        log.info("productDtos => " + productDtos);
-        log.info("totalCnt => " + totalCnt);
-
-        PageMakerDto pageMakerDto = new PageMakerDto(criteria, totalCnt);
-
-        list.put("productDtos", productDtos);
-        list.put("pageMakerDto", pageMakerDto);
-
-        return list;
-    }*/
 
 }

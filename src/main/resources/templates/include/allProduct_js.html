@@ -29,8 +29,17 @@
                       for (let j = i; j < i + 5 && j < data.productDtos.length; j++) {
                           appendTag += "<td>";
                           appendTag += "<a href='#none' class='add_product' data-product-name='" + data.productDtos[j].name;
-                          appendTag += "' data-product-price='" + data.productDtos[j].price + "'>";
-                          appendTag += data.productDtos[j].name + " " + data.productDtos[j].price;
+                          appendTag += "' data-product-price='" + data.productDtos[j].price;
+                          if(data.productDtos[j].img == ''){
+                              appendTag += "' data-img='default/default.jpg'>";
+                              appendTag += '<img width="100" height="100" src="/dormEaseUploadImg/admin/product/default/default.jpg">';
+                          }
+                          else {
+                              appendTag += "' data-img='" + data.productDtos[j].img + "'>";
+                              appendTag += '<img width="100" height="100" src="/dormEaseUploadImg/admin/product/' + data.productDtos[j].img + '">';
+                          }
+                          appendTag += '<span class="name">' + data.productDtos[j].name + '</span>'
+                          appendTag += '<span class="price">' + data.productDtos[j].price + '</span>'
                           appendTag += "</a>";
                           appendTag += "</td>";
                       }
@@ -49,17 +58,5 @@
       });
   }
 
-  function select_product(){
-      console.log("select_product()");
-
-      $(document).on('click', '#selectProduct table tr td a', function(){
-          let appendTag = "<li>";
-          appendTag += '상품 명 : ' + $(this).data('product-name');
-          appendTag += '상품 가격 : ' + $(this).data('product-price');
-          appendTag += "</li>";
-
-          $("#checkedProduct ul").append(appendTag);
-      })
-  }
 
 </script>

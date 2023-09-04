@@ -13,6 +13,7 @@
       $(document).on('click', '#selectProduct table tr td a.add_product', function(){
           let productName = $(this).data('product-name');
           let productPrice = $(this).data('product-price');
+          let img = $(this).data('img');
 
           ajax_is_exist_database(productName, function(countExist){
               if(countExist > 0){
@@ -20,7 +21,8 @@
               }
               else{
                   if(!is_exist_name(productName)){
-                      let appendTag = "<li id='" + productName + "'>";
+                      let appendTag = "<li id='" + productName + "' class='addProduct'>";
+                      appendTag += '<img width="50" height="50" src="/dormEaseUploadImg/admin/product/' +  img + '">';
                       appendTag += '상품 명 : ' + productName;
                       appendTag += '상품 가격 : ' + productPrice;
                       appendTag += "<a href='#none' class='remove_product'>X</a>";
@@ -31,6 +33,8 @@
                       inputTag += "value='" + productName +"'>";
                       inputTag += "<input type='hidden' name='price' ";
                       inputTag += "value='" + productPrice +"'>";
+                      inputTag += "<input type='hidden' name='img' ";
+                      inputTag += "value='" + img +"'>";
                       $("#registProduct form input[type='hidden']:last").after(inputTag);
 
                       alert('상품을 추가하였습니다.');

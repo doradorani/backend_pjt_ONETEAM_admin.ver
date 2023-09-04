@@ -37,11 +37,16 @@
     </div>
     <!-- SEARCH END -->
 
+    <div class="search_all_wrap">
+      <a th:href="@{/product/registProductList}">전체 보기</a>
+    </div>
+
     <div id="registProductList" class="product_list">
       <table>
         <thead>
         <tr>
           <th>상품 등록 번호</th>
+          <th>상품 이미지</th>
           <th>상품 명</th>
           <th>상품 가격</th>
           <th>등록 관리자</th>
@@ -53,6 +58,10 @@
         <tbody>
         <tr th:each="productRegistDto : ${productRegistDtos}">
           <td th:text="${productRegistDto.no}"></td>
+          <td>
+            <img width="100" height="100" th:src="@{'/dormEaseUploadImg/admin/product/' + ${productRegistDto.img}}"
+                 alt="Product Image">
+          </td>
           <td th:text="${productRegistDto.product_name}"></td>
           <td th:text="${productRegistDto.product_price}"></td>
           <td th:text="${productRegistDto.admin_id}"></td>
