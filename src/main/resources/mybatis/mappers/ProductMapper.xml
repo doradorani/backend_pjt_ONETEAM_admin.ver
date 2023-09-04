@@ -9,12 +9,14 @@
     <insert id="insertNotice" parameterType="com.oneteam.dormeaseadmin.product.ProductDto">
         INSERT INTO
             product_notice(
+                           img,
                            name,
                            price,
                            status,
                            reg_date
                         )
         VALUES(
+               #{img},
                #{name},
                #{price},
                #{status},
@@ -82,6 +84,7 @@
     <insert id="registProductConfirm" parameterType="java.util.List">
         insert into
             product_regist(
+                    img,
                     product_name,
                     product_price,
                     zip_code,
@@ -94,6 +97,7 @@
         values
             <foreach collection="list" item="item" separator=", ">
             (
+               #{item.img},
                #{item.product_name},
                #{item.product_price},
                #{item.zip_code},
@@ -181,6 +185,7 @@
     <insert id="adminProductConfirm" parameterType="com.oneteam.dormeaseadmin.product.ProductDto">
         INSERT INTO
             product(
+                    img,
                     name,
                     price,
                     admin_id,
@@ -189,6 +194,7 @@
                     reg_date,
                     mod_date)
         VALUES (
+                #{img},
                 #{name},
                 #{price},
                 #{admin_id},
@@ -255,29 +261,6 @@
         WHERE
             no = #{no}
     </update>
-
-<!--    <select id="searchAdminProductConfirm" parameterType="com.oneteam.dormeaseadmin.product.ProductListDto" resultType="com.oneteam.dormeaseadmin.product.ProductDto">-->
-<!--        SELECT-->
-<!--            *-->
-<!--        FROM-->
-<!--            product-->
-<!--        WHERE-->
-<!--            name LIKE CONCAT('%', #{name}, '%') AND-->
-<!--            status = 1-->
-<!--        ORDER BY-->
-<!--            no DESC-->
-<!--            LIMIT #{skip}, #{amount}-->
-<!--    </select>-->
-
-<!--    <select id="adminSelectListTotalCnt" parameterType="String" resultType="Integer">-->
-<!--        SELECT-->
-<!--            COUNT(*)-->
-<!--        FROM-->
-<!--            product-->
-<!--        WHERE-->
-<!--            name LIKE CONCAT('%', #{name}, '%') AND-->
-<!--            status = 1-->
-<!--    </select>-->
 
 
 

@@ -38,11 +38,16 @@
     </div>
     <!-- SEARCH END -->
 
+    <div class="search_all_wrap">
+      <a th:href="@{/product/adminProductList}">전체 보기</a>
+    </div>
+
     <div id="adminProductList" class="product_list">
       <table>
         <thead>
         <tr>
           <th>상품 번호</th>
+          <th>상품 이미지</th>
           <th>상품 명</th>
           <th>상품 가격</th>
           <th>등록 관리자</th>
@@ -50,10 +55,17 @@
           <th>삭제</th>
         </tr>
         </thead>
-
         <tbody>
         <tr th:each="productDto : ${productDtos}">
           <td th:text="${productDto.no}"></td>
+          <td>
+            <img width="100" height="100" th:if="${productDto.img != '' && productDto.img != null}"
+                 th:src="@{'/dormEaseUploadImg/admin/product/' + ${productDto.img}}"
+                 alt="Product Image">
+            <img width="100" height="100" th:unless="${productDto.img != '' && productDto.img != null}"
+                 th:src="@{'/dormEaseUploadImg/admin/product/default/default.jpg'}"
+                 alt="Default Image">
+          </td>
           <td th:text="${productDto.name}"></td>
           <td th:text="${productDto.price}"></td>
           <td th:text="${productDto.admin_id}"></td>

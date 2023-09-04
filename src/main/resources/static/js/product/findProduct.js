@@ -40,8 +40,18 @@ function ajax_addProduct(name){
                     for (let j = i; j < i + 5 && j < data.productDtos.length; j++) {
                         appendTag += "<td>";
                         appendTag += "<a href='#none' class='add_product' data-product-name='" + data.productDtos[j].name;
-                        appendTag += "' data-product-price='" + data.productDtos[j].price + "'>";
-                        appendTag += data.productDtos[j].name + " " + data.productDtos[j].price;
+                        appendTag += "' data-product-price='" + data.productDtos[j].price;
+                        if(data.productDtos[j].img == ''){
+                            appendTag += "' data-img='default/default.jpg'>";
+                            appendTag += '<img width="100" height="100" src="/dormEaseUploadImg/admin/product/default/default.jpg">';
+                        }
+                        else {
+                            appendTag += "' data-img='" + data.productDtos[j].img + "'>";
+                            appendTag += '<img width="100" height="100" src="/dormEaseUploadImg/admin/product/' + data.productDtos[j].img + '">';
+                        }
+                        appendTag += '<span class="name">' + data.productDtos[j].name + '</span>'
+                        appendTag += '<span class="price">' + data.productDtos[j].price + '</span>'
+                        appendTag += "</a>";
                         appendTag += "</td>";
                     }
 

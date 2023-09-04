@@ -3,11 +3,13 @@ package com.oneteam.dormeaseadmin.product;
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
 import com.oneteam.dormeaseadmin.page.PageDefine;
 import com.oneteam.dormeaseadmin.page.PageMakerDto;
+import com.oneteam.dormeaseadmin.utils.ProductUploadFileService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -19,8 +21,10 @@ public class ProductController {
 
     //생성자 주입
     private final ProductService productService;
-    public ProductController(ProductService productService) {
+    private final ProductUploadFileService productUploadFileService;
+    public ProductController(ProductService productService, ProductUploadFileService productUploadFileService) {
         this.productService = productService;
+        this.productUploadFileService = productUploadFileService;
     }
 
     /*
@@ -92,11 +96,12 @@ public class ProductController {
      */
     @PostMapping("/registProductConfirm")
     public String registProductConfirm(ProductRegistDto productRegistDto,
+                                       @RequestParam("img") List<String> img,
                                        @RequestParam("name") List<String> name,
                                        @RequestParam("price") List<Integer> price){
         log.info("registProductConfirm()");
 
-        int result = productService.registProductConfirm(productRegistDto, name, price);
+        int result = productService.registProductConfirm(productRegistDto, img, name, price);
 
         return "redirect:/product";
     }
@@ -224,8 +229,18 @@ public class ProductController {
      * 상품 등록 확인 (최종 관리자 용)
      */
     @PostMapping("/adminProductConfirm")
-    public String adminProductConfirm(ProductDto productDto){
+    public String adminProductConfirm(HttpSession session, ProductDto productDto,
+                                      @RequestParam("file") MultipartFile file){
         log.info("adminProductConfirm()");
+
+        MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
+
+        String savedFileName = "";
+        if (!file.isEmpty()) {          //파일 이미지를 업로드 하였다면
+            savedFileName = productUploadFileService.upload(file);
+        }
+        productDto.setImg(savedFileName);
+
         int result = productService.adminProductConfirm(productDto);
         int notice = 0;
 
@@ -257,6 +272,8 @@ public class ProductController {
         PageMakerDto pageMakerDto = (PageMakerDto) listPage.get("pageMakerDto");
         //pageMakerDto=PageMakerDto{startPage=1, endPage=2, prev=false, next=false, total=5, totalPage=2, criteria=Criteria(pageNum=1, amount=3, skip=0)
 
+        System.out.println("productDtos ==> " + productDtos);
+
         model.addAttribute("productDtos", productDtos);
         model.addAttribute("pageMakerDto", pageMakerDto);
         model.addAttribute("keyWord", keyWord);
@@ -284,36 +301,4 @@ public class ProductController {
         return nextPage;
     }
 
-
-
-    /*
-     * 등록 상품 검색 (최종 관리자 용)
-     *//*
-    @PostMapping("/searchAdminProductConfirm")
-    public String searchAdminProductConfirm(HttpSession session,
-                                            ProductDto productDto,
-                                            Model model,
-                                            @RequestParam(value="pageNum", required = false, defaultValue = PageDefine.DEFAULT_PAGE_NUMBER) int pageNum,
-                                            @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_AMOUNT) int amount){
-        log.info("searchAdminProductConfirm()");
-        String nextPage = "/product/adminProductList";
-
-        MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
-
-        //페이지와 DTO 동시 관리
-        Map<String, Object> listPage = productService.searchAdminProductConfirm(productDto.getName(), pageNum, amount);
-
-        List<ProductDto> productDtos = (List<ProductDto>) listPage.get("productDtos");
-        PageMakerDto pageMakerDto = (PageMakerDto) listPage.get("pageMakerDto");
-
-        System.out.println(productDtos);
-        System.out.println(pageMakerDto);
-
-        model.addAttribute("productDtos", productDtos);
-        model.addAttribute("pageMakerDto", pageMakerDto);
-
-
-
-        return nextPage;
-    }*/
 }
