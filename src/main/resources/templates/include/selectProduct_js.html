@@ -32,6 +32,8 @@
                       inputTag += "<input type='hidden' name='price' ";
                       inputTag += "value='" + productPrice +"'>";
                       $("#registProduct form input[type='hidden']:last").after(inputTag);
+
+                      alert('상품을 추가하였습니다.');
                   }
                   else{
                       alert('이미 추가한 상품입니다.');

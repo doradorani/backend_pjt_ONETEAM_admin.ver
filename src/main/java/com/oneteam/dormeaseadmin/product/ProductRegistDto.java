@@ -4,7 +4,7 @@ import com.github.rkpunjal.sqlsafe.SQLInjectionSafe;
 import lombok.Data;
 
 @Data
-public class ProductHistoryDto {
+public class ProductRegistDto {
     private @SQLInjectionSafe int no;                     // COMMENT '상품 등록 번호'
     private @SQLInjectionSafe String product_name;        // COMMENT '상품 이름'
     private @SQLInjectionSafe int product_price;          // COMMENT '상품 가격'
