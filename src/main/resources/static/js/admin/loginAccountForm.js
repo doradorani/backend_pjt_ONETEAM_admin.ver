@@ -12,7 +12,7 @@ function loginAccountConfirm() {
     }
     else {
 
-        form.submit();
+        product_registmit();
     }
 
 }
