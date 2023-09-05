@@ -12,6 +12,14 @@ function findProduct(){
     }
 }
 
+function allfindProduct(){
+    console.log('allfindProduct()');
+
+    let findProductName = "";
+    ajax_addProduct(findProductName);
+
+}
+
 function ajax_addProduct(name){
     console.log('ajax_addProduct()');
 
