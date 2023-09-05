@@ -41,7 +41,7 @@ public class ExcelUploadController {
 
             ExcelDataDto excelDataDto = new ExcelDataDto();
             excelDataDto.setName(name);
-            excelDataDto.setZip_code(zip_code);
+            excelDataDto.setZip_code(zip_code.trim());      //데이터에 공백이 있음을 확인
             excelDataDto.setAddress(address);
 
             excelDataDtos.add(excelDataDto);

@@ -51,6 +51,7 @@ public class ApiService {
         return apiMapper.countTable();
     }
 
+    //최초의 학교 데이터 입력
     public void insertSchoolInfo(String result) {
         log.info("insertSchoolInfo()");
 
@@ -74,7 +75,7 @@ public class ApiService {
                 schoolInfoDto = new SchoolInfoDto();
                 schoolInfoDto.setAtpt_code((String) obj.get("ATPT_OFCDC_SC_CODE"));
                 schoolInfoDto.setAtpt_name((String) obj.get("ATPT_OFCDC_SC_NM"));
-                schoolInfoDto.setZip_code((String) obj.get("ORG_RDNZC"));
+                schoolInfoDto.setZip_code(((String) obj.get("ORG_RDNZC")).trim());
                 schoolInfoDto.setSchool_code((String) obj.get("SD_SCHUL_CODE"));
                 schoolInfoDto.setSchool_name((String) obj.get("SCHUL_NM"));
                 schoolInfoDto.setSchool_knd((String) obj.get("SCHUL_KND_SC_NM"));
@@ -90,14 +91,14 @@ public class ApiService {
         apiMapper.insertSchoolData(schoolInfoDtos);
     }
 
-
+    //학교 정보 스케줄 작동 시, 기본적으로 모든 학교의 상태 값을 0으로 설정
     public int updateSchoolInfoStatusFalse() {
         log.info("updateSchoolInfoStatusFalse()");
 
         return apiMapper.updateSchoolInfoStatusFalse();
     }
 
-
+    //학교 스케줄 작동 시, 있는 데이터에 한해 상태 값 1로 재설정
     public void updateSchoolInfo(String result) {
         log.info("updateSchoolInfo()");
 
@@ -121,7 +122,7 @@ public class ApiService {
                 schoolInfoDto = new SchoolInfoDto();
                 schoolInfoDto.setAtpt_code((String) obj.get("ATPT_OFCDC_SC_CODE"));
                 schoolInfoDto.setAtpt_name((String) obj.get("ATPT_OFCDC_SC_NM"));
-                schoolInfoDto.setZip_code((String) obj.get("ORG_RDNZC"));
+                schoolInfoDto.setZip_code(((String) obj.get("ORG_RDNZC")).trim());
                 schoolInfoDto.setSchool_code((String) obj.get("SD_SCHUL_CODE"));
                 schoolInfoDto.setSchool_name((String) obj.get("SCHUL_NM"));
                 schoolInfoDto.setSchool_knd((String) obj.get("SCHUL_KND_SC_NM"));
