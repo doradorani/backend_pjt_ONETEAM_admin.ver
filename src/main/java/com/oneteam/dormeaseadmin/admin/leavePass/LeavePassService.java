@@ -1,9 +1,13 @@
 package com.oneteam.dormeaseadmin.admin.leavePass;
 
+import com.oneteam.dormeaseadmin.utils.pagination.Criteria;
+import com.oneteam.dormeaseadmin.utils.pagination.PageMakerDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Log4j2
@@ -17,22 +21,20 @@ public class LeavePassService {
 
     public int modifyLeavePassConfirm(LeavePassDto leavePassDto) {
         log.info("modifyLeavePassConfirm()");
-
         int result = leavePassMapper.updateLeavePass(leavePassDto);
 
-        return 0;
+        return result;
     }
 
-    public List<LeavePassDto> leaveOutList(String schoolNo) {
-        log.info("leaveOutList()");
-
-        return leavePassMapper.selectLeavePassList(schoolNo);
+    public Map<String, Object> leaveOutList(String schoolNo, int pageNum, int amount) {
+        log.info("approveLeavePass()");
+        return commonClass(0, schoolNo, pageNum, amount );
     }
-    public List<LeavePassDto> approveLeavePass(int no, String schoolNo) {
+    public Map<String, Object> approveLeavePass(int no, String schoolNo, int pageNum, int amount) {
         log.info("approveLeavePass()");
         leavePassMapper.updateApproveLeavePass(no);
 
-        return leavePassMapper.selectLeavePassList(schoolNo);
+        return commonClass(no, schoolNo, pageNum, amount);
     }
 
     public LeavePassDto modifyLeavePassForm(int no) {
@@ -40,5 +42,23 @@ public class LeavePassService {
         LeavePassDto leavePassDto = leavePassMapper.selectLeavePassByNo(no);
 
         return leavePassDto;
+    }
+
+    public Map<String, Object> modifyComebackDateConfirm(LeavePassDto leavePassDto, int pageNum, int amount) {
+        log.info("modifyComebackDateConfirm()");
+        leavePassMapper.updateLeavePass(leavePassDto);
+        return commonClass(leavePassDto.getNo(), leavePassDto.getSchool_no(), pageNum, amount);
+    }
+
+    private Map<String, Object> commonClass(int no, String schoolNo, int pageNum, int amount){
+        Map<String, Object> map = new HashMap<>();
+        Criteria criteria = new Criteria(pageNum, amount);
+        int total = leavePassMapper.selectLeavePasses(schoolNo);
+        PageMakerDto pageMakerDto = new PageMakerDto(schoolNo,criteria, total);
+        map.put("pageMakerDto", pageMakerDto);
+        List<LeavePassDto> leavePassDtos = leavePassMapper.selectLeavePassList(pageMakerDto);
+        map.put("leavePassDtos", leavePassDtos);
+
+        return map;
     }
 }

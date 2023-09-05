@@ -22,6 +22,7 @@ public class ProductController {
     //생성자 주입
     private final ProductService productService;
     private final ProductUploadFileService productUploadFileService;
+
     public ProductController(ProductService productService, ProductUploadFileService productUploadFileService) {
         this.productService = productService;
         this.productUploadFileService = productUploadFileService;
@@ -31,7 +32,7 @@ public class ProductController {
      * 상품 페이지
      */
     @GetMapping({"", "/"})
-    public String productHome(){
+    public String productHome() {
         log.info("productHome()");
 
         String nextPage = "product/productHome";
@@ -44,10 +45,10 @@ public class ProductController {
      */
     @GetMapping("/productNotice")
     public String productNotice(HttpSession session,
-                                   Model model,
-                                    @RequestParam(value = "keyWord", required = false, defaultValue = "") String keyWord,
-                                   @RequestParam(value="pageNum", required = false, defaultValue = PageDefine.DEFAULT_PAGE_NUMBER) int pageNum,
-                                   @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_AMOUNT) int amount){
+                                Model model,
+                                @RequestParam(value = "keyWord", required = false, defaultValue = "") String keyWord,
+                                @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_PRODUCT_PAGE_NUMBER) int pageNum,
+                                @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_PRODUCT_AMOUNT) int amount) {
         log.info("productNotice()");
         String nextPage = "product/productNotice";
 
@@ -73,7 +74,7 @@ public class ProductController {
      * 상품 등록 페이지 (학교 관리자 용)
      */
     @GetMapping("/registProductForm")
-    public String registProductForm(Model model, HttpSession session){
+    public String registProductForm(Model model, HttpSession session) {
         log.info("registProductForm()");
 
         String nextPage = "product/registProductForm";
@@ -98,7 +99,7 @@ public class ProductController {
     public String registProductConfirm(ProductRegistDto productRegistDto,
                                        @RequestParam("img") List<String> img,
                                        @RequestParam("name") List<String> name,
-                                       @RequestParam("price") List<Integer> price){
+                                       @RequestParam("price") List<Integer> price) {
         log.info("registProductConfirm()");
 
         int result = productService.registProductConfirm(productRegistDto, img, name, price);
@@ -111,7 +112,7 @@ public class ProductController {
      */
     @PostMapping("/selectAllProduct")
     @ResponseBody
-    public Object selectAllProduct(){
+    public Object selectAllProduct() {
         log.info("selectAllProduct()");
 
         Map<String, Object> resultMap = productService.selectAllProduct();
@@ -124,7 +125,7 @@ public class ProductController {
      */
     @PostMapping("/selectProduct")
     @ResponseBody
-    public Object selectProduct(@RequestBody Map<String ,String> msgMap){
+    public Object selectProduct(@RequestBody Map<String, String> msgMap) {
         log.info("selectProduct()");
 
         String productName = msgMap.get("name");
@@ -139,13 +140,13 @@ public class ProductController {
      */
     @PostMapping("/isExistDatabase")
     @ResponseBody
-    public Object isExistDatabase(@RequestBody Map<String ,String> msgMap, HttpSession session){
+    public Object isExistDatabase(@RequestBody Map<String, String> msgMap, HttpSession session) {
         log.info("isExistDatabase()");
 
         String productName = msgMap.get("name");
 
         Map<String, Object> resultMap = productService.isExistDatabase(productName,
-                                                        (MemberDto) session.getAttribute("loginedMemberDto"));
+                (MemberDto) session.getAttribute("loginedMemberDto"));
 
         return resultMap;
     }
@@ -155,10 +156,10 @@ public class ProductController {
      */
     @GetMapping("/registProductList")
     public String registProductList(HttpSession session,
-                                  Model model,
+                                    Model model,
                                     @RequestParam(value = "keyWord", required = false, defaultValue = "") String keyWord,
-                                  @RequestParam(value="pageNum", required = false, defaultValue = PageDefine.DEFAULT_PAGE_NUMBER) int pageNum,
-                                  @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_AMOUNT) int amount){
+                                    @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_PRODUCT_PAGE_NUMBER) int pageNum,
+                                    @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_PRODUCT_AMOUNT) int amount) {
         log.info("registProductList()");
         String nextPage = "product/registProductList";
 
@@ -183,7 +184,7 @@ public class ProductController {
      * 등록 상품 리스트 삭제 (학교 관리자 용)
      */
     @GetMapping("/unRegistProduct")
-    public String unRegistProduct(HttpSession session, @RequestParam("no") int no){
+    public String unRegistProduct(HttpSession session, @RequestParam("no") int no) {
         log.info("unRegistProduct()");
         String nextPage = "redirect:/product/registProductList";
 
@@ -196,7 +197,7 @@ public class ProductController {
      * 상품 등록 페이지 (최종 관리자 용)
      */
     @GetMapping("/adminProductForm")
-    public String adminProductForm(HttpSession session, Model model){
+    public String adminProductForm(HttpSession session, Model model) {
         log.info("adminProductForm()");
         String nextPage = "product/adminProductForm";
 
@@ -216,7 +217,7 @@ public class ProductController {
      */
     @PostMapping("/adminAlreadyRegist")
     @ResponseBody
-    public Object adminAlreadyRegist(@RequestBody Map<String ,String> msgMap){
+    public Object adminAlreadyRegist(@RequestBody Map<String, String> msgMap) {
         log.info("adminAlreadyRegist()");
 
         String productName = msgMap.get("name");
@@ -230,7 +231,7 @@ public class ProductController {
      */
     @PostMapping("/adminProductConfirm")
     public String adminProductConfirm(HttpSession session, ProductDto productDto,
-                                      @RequestParam("file") MultipartFile file){
+                                      @RequestParam("file") MultipartFile file) {
         log.info("adminProductConfirm()");
 
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
@@ -244,7 +245,7 @@ public class ProductController {
         int result = productService.adminProductConfirm(productDto);
         int notice = 0;
 
-        if(result > 0){ // 등록 or 해제에 성공하였다면 공지에 개시
+        if (result > 0) { // 등록 or 해제에 성공하였다면 공지에 개시
             notice = productService.productNotice(productDto, 1);
         }
 
@@ -256,10 +257,10 @@ public class ProductController {
      */
     @GetMapping("/adminProductList")
     public String adminProductList(HttpSession session,
-                                  Model model,
+                                   Model model,
                                    @RequestParam(value = "keyWord", required = false, defaultValue = "") String keyWord,
-                                  @RequestParam(value="pageNum", required = false, defaultValue = PageDefine.DEFAULT_PAGE_NUMBER) int pageNum,
-                                  @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_AMOUNT) int amount){
+                                   @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_PRODUCT_PAGE_NUMBER) int pageNum,
+                                   @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_PRODUCT_AMOUNT) int amount) {
         log.info("adminProductList()");
         String nextPage = "product/adminProductList";
 
@@ -285,14 +286,14 @@ public class ProductController {
      * 등록 상품 리스트 삭제 (최종 관리자 용)
      */
     @GetMapping("/unRegistProductAdmin")
-    public String unRegistProductAdmin(HttpSession session, @RequestParam("no") int no){
+    public String unRegistProductAdmin(HttpSession session, @RequestParam("no") int no) {
         log.info("unRegistProductAdmin()");
         String nextPage = "redirect:/product/adminProductList";
 
         int result = productService.unRegistProductAdmin(no);
         int notice = 0;
 
-        if(result > 0){ // 등록 or 해제에 성공하였다면 공지에 개시
+        if (result > 0) { // 등록 or 해제에 성공하였다면 공지에 개시
             ProductDto productDto = new ProductDto();
             productDto.setNo(no);
             notice = productService.productNotice(productDto, 0);

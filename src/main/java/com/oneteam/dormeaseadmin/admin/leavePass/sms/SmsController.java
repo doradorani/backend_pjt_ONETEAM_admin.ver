@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Log4j2
@@ -28,12 +27,12 @@ public class SmsController {
         this.smsService = smsService;
     }
 
-    @PostMapping("/sendMessages")
+    @PostMapping("/sendComebackMessage")
     @ResponseBody
-    public Object sendMessages(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        log.info("sendMessages()");
+    public Object sendComebackMessage(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        log.info("sendComebackMessage()");
 
-        SmsResponseDTO response = smsService.sendMessages(smsDTO);
+        SmsResponseDTO response = smsService.sendComebackMessage(smsDTO);
 
         Map<String, Object> map = new HashMap<>();
 
@@ -41,14 +40,14 @@ public class SmsController {
 
         return map;
     }
-    @GetMapping("/allSendMessages")
+    @GetMapping("/allSenComebackdMessages")
     @ResponseBody
-    public Object allSendMessages(HttpSession session) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        log.info("sendMessages()");
+    public Object allSenComebackdMessages(HttpSession session) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        log.info("allSenComebackdMessages()");
 
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
 
-        return smsService.allSendMessages(loginedMemberDto.getSchool_no());
+        return smsService.allSenComebackdMessages(loginedMemberDto.getSchool_no());
     }
 
 }

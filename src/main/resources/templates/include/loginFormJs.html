@@ -51,20 +51,22 @@
           success: function(data) {
               console.log('AJAX SUCCESS - ajax_loginConfirm()');
 
-
               $("div.loginConfirmResult").children().remove();
 
               let result = data.result;
-              if(result == "success"){
+              if(result){
                   alert("성공적으로 로그인되었습니다.");
 
                   location.href= "/";
+
               } else {
-                  let appendTag = "<span>아이디와 비밀번호가 맞지 않습니다!<span></span>";
+                  let appendTag = "<span>아이디와 비밀번호가 맞지 않습니다!</span>";
+                  if(data.fail_count >= 5 ){
+                      appendTag += "<br><span>비밀번호가 5회 이상 틀렸습니다. 비밀번호 찾기를 통해 새 비밀번호를 받아주세요</span>";
+                  }
 
                   $("div.loginConfirmResult").append(appendTag);
               }
-
 
           },
           error: function(data) {

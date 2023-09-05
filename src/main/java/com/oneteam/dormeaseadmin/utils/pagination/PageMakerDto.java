@@ -18,8 +18,8 @@ public class PageMakerDto {
         this.criteria = criteria;
         this.total = total;
 
-        this.endPage = (int) (Math.ceil(criteria.getPageNum() / 3.0)) * 3;
-        this.startPage = this.endPage - 2;
+        this.endPage = (int) (Math.ceil(criteria.getPageNum() / (double)criteria.getAmount())) * criteria.getAmount();
+        this.startPage = this.endPage - criteria.getAmount() + 1;
 
         int realEnd = (int) (Math.ceil(total * 1.0 / criteria.getAmount()));
 
@@ -40,8 +40,8 @@ public class PageMakerDto {
         this.total = total;
         this.keyWord = keyWord;
 
-        this.endPage = (int) (Math.ceil(criteria.getPageNum() / 3.0)) * 3;
-        this.startPage = this.endPage - 2;
+        this.endPage = (int) (Math.ceil(criteria.getPageNum() / (double)criteria.getAmount())) * criteria.getAmount();
+        this.startPage = this.endPage - criteria.getAmount() + 1;
 
         int realEnd = (int) (Math.ceil(total * 1.0 / criteria.getAmount()));
 

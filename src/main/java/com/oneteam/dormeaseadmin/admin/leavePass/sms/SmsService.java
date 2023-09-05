@@ -118,26 +118,31 @@ public class SmsService {
         }
 
 
-    public SmsResponseDTO sendMessages(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+    public SmsResponseDTO sendComebackMessage(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
         log.info("sendMessages()");
         HttpHeaders headers = makeHeader();
 
         SmsResponseDTO response = buildRequestDto(smsDTO, headers);
 
         if(response.getStatusCode().equals("202")){
-            leavePassMapper.updateLeavePassByNo(smsDTO.getNo());
+            LeavePassDto leavePassDto = new LeavePassDto();
+            leavePassDto.setNo(smsDTO.getNo());
+            leavePassMapper.updateLeavePass(leavePassDto);
         }
 
         return response;
     }
 
-    public Map<String, String> allSendMessages(String schoolNo) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+    public Map<String, String> allSenComebackdMessages(String schoolNo) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
         log.info("allSendMessages()");
         HttpHeaders headers = makeHeader();
 
         List<LeavePassDto> leavePassDtos = leavePassMapper.selectLeavePassBySchoolNo(schoolNo);
 
         Map<String, String> responses = new HashMap<>();
+        LeavePassDto leavePassDto = new LeavePassDto();
+        leavePassDto.setSchool_no(schoolNo);
+        leavePassMapper.updateLeavePass(leavePassDto);
 
         for(int i = 0; i < leavePassDtos.size(); i++){
             SmsDTO smsDTO = new SmsDTO();
@@ -145,7 +150,6 @@ public class SmsService {
             smsDTO.setContent("["+leavePassDtos.get(i).getSchool_name()+"] \n" + leavePassDtos.get(i).getStudent_name()+"님이 안전하게복귀하였습니다.");
             SmsResponseDTO response = buildRequestDto(smsDTO, headers);
             if(response.getStatusCode().equals("202")) {
-                leavePassMapper.updateLeavePassByNo(leavePassDtos.get(i).getNo());
                 responses.put(String.valueOf(leavePassDtos.get(i).getNo()), "메시지 발송 성공");
             } else{
                 responses.put(String.valueOf(leavePassDtos.get(i).getNo()), "메시지 발송 실패");

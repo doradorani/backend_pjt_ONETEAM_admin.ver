@@ -1,14 +1,13 @@
 package com.oneteam.dormeaseadmin.admin.leavePass;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
+import com.oneteam.dormeaseadmin.utils.pagination.PageDefine;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,25 +22,27 @@ public class LeavePassController {
     }
 
     @GetMapping("/leavePassList")
-    public String leaveOutList(Model model, HttpSession session){
-        log.info("leaveOutList()");
-        String nextPage = "admin/leaveOutList";
+    public String leavePassList(Model model, HttpSession session,
+                                             @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_PAGE_NUMBER) int pageNum,
+                                             @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_AMOUNT) int amount){
+        log.info("leavePassList()");
+        String nextPage = "admin/leavePassList";
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
-        List<LeavePassDto> leavePassDtos = leavePassService.leaveOutList(loginedMemberDto.getSchool_no());
-        model.addAttribute("leavePassDtos", leavePassDtos);
+        Map<String, Object> map = leavePassService.leaveOutList(loginedMemberDto.getSchool_no(), pageNum, amount);
+        model.addAttribute("pageMakerDto", map.get("pageMakerDto"));
+        model.addAttribute("leavePassDtos", map.get("leavePassDtos"));
 
         return nextPage;
     }
     @GetMapping("/approveLeavePass")
     @ResponseBody
-    public Object approveLeavePass(HttpSession session, @RequestParam int no){
+    public Object approveLeavePass(HttpSession session, @RequestParam int no,
+                                   @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_PAGE_NUMBER) int pageNum,
+                                   @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_AMOUNT) int amount){
         log.info("approveLeavePass()");
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
-        Map<String, Object> map = new HashMap<>();
-        List<LeavePassDto> leavePassDtos = leavePassService.approveLeavePass(no, loginedMemberDto.getSchool_no());
-        map.put("leavePassDtos", leavePassDtos);
 
-        return map;
+        return leavePassService.approveLeavePass(no, loginedMemberDto.getSchool_no(), pageNum, amount);
     }
 
     @GetMapping("/modifyLeavePassForm")
@@ -60,5 +61,16 @@ public class LeavePassController {
         int result = leavePassService.modifyLeavePassConfirm(leavePassDto);
 
         return nextPage;
+    }
+    @GetMapping("/modifyComebackDateConfirm")
+    @ResponseBody
+    public Object modifyComebackDateConfirm(LeavePassDto leavePassDto,
+                                            @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_PAGE_NUMBER) int pageNum,
+                                            @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_AMOUNT) int amount){
+        log.info("modifyComebackDateConfirm()");
+
+        Map<String, Object> map = leavePassService.modifyComebackDateConfirm(leavePassDto, pageNum, amount);
+
+        return map;
     }
 }
