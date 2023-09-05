@@ -12,8 +12,6 @@ public interface ILeavePassMapper {
 
     int updateLeavePass(LeavePassDto leavePassDto);
 
-    boolean updateLeavePassByNo(int no);
-
     List<LeavePassDto> selectLeavePassBySchoolNo(String schoolNo);
 
     int selectLeavePasses(String schoolNo);

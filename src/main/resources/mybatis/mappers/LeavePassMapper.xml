@@ -41,20 +41,26 @@
     </select>
     <select id="selectLeavePassByNo" parameterType="String" resultType="LeavePassDto">
         SELECT *
-        FROM
-            leave_pass
+        FROM leave_pass
         WHERE
             no = #{no}
     </select>
-    <update id="updateLeavePassByNo" parameterType="Integer">
+    <update id="updateLeavePass" parameterType="LeavePassDto">
         UPDATE
-            leave_pass
+        leave_pass
         SET comeback_date = now(),
-            mod_date      = now()
-        WHERE
-            NO = #{no}
-          AND
-            end_date = now()
+        mod_date = now()
+        <where>
+            <if test="no != 0">
+                AND
+                no = #{no}
+            </if>
+            <if test="no == 0">
+                end_date = CURRENT_DATE()
+                AND
+                school_no = #{school_no}
+            </if>
+        </where>
     </update>
     <select id="selectLeavePassBySchoolNo" parameterType="String"
             resultType="LeavePassDto">

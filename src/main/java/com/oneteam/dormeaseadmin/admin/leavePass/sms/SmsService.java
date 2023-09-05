@@ -125,7 +125,9 @@ public class SmsService {
         SmsResponseDTO response = buildRequestDto(smsDTO, headers);
 
         if(response.getStatusCode().equals("202")){
-            leavePassMapper.updateLeavePassByNo(smsDTO.getNo());
+            LeavePassDto leavePassDto = new LeavePassDto();
+            leavePassDto.setNo(smsDTO.getNo());
+            leavePassMapper.updateLeavePass(leavePassDto);
         }
 
         return response;
@@ -138,6 +140,9 @@ public class SmsService {
         List<LeavePassDto> leavePassDtos = leavePassMapper.selectLeavePassBySchoolNo(schoolNo);
 
         Map<String, String> responses = new HashMap<>();
+        LeavePassDto leavePassDto = new LeavePassDto();
+        leavePassDto.setSchool_no(schoolNo);
+        leavePassMapper.updateLeavePass(leavePassDto);
 
         for(int i = 0; i < leavePassDtos.size(); i++){
             SmsDTO smsDTO = new SmsDTO();
@@ -145,7 +150,6 @@ public class SmsService {
             smsDTO.setContent("["+leavePassDtos.get(i).getSchool_name()+"] \n" + leavePassDtos.get(i).getStudent_name()+"님이 안전하게복귀하였습니다.");
             SmsResponseDTO response = buildRequestDto(smsDTO, headers);
             if(response.getStatusCode().equals("202")) {
-                leavePassMapper.updateLeavePassByNo(leavePassDtos.get(i).getNo());
                 responses.put(String.valueOf(leavePassDtos.get(i).getNo()), "메시지 발송 성공");
             } else{
                 responses.put(String.valueOf(leavePassDtos.get(i).getNo()), "메시지 발송 실패");

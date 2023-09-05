@@ -32,7 +32,7 @@ public class LeavePassService {
     }
     public Map<String, Object> approveLeavePass(int no, String schoolNo, int pageNum, int amount) {
         log.info("approveLeavePass()");
-        leavePassMapper.updateLeavePassByNo(no);
+        leavePassMapper.updateApproveLeavePass(no);
 
         return commonClass(no, schoolNo, pageNum, amount);
     }
@@ -46,7 +46,7 @@ public class LeavePassService {
 
     public Map<String, Object> modifyComebackDateConfirm(LeavePassDto leavePassDto, int pageNum, int amount) {
         log.info("modifyComebackDateConfirm()");
-        leavePassMapper.updateApproveLeavePass(leavePassDto.getNo());
+        leavePassMapper.updateLeavePass(leavePassDto);
         return commonClass(leavePassDto.getNo(), leavePassDto.getSchool_no(), pageNum, amount);
     }
 
