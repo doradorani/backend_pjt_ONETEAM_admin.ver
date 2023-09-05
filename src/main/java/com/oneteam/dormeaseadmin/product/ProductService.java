@@ -4,6 +4,7 @@ import com.oneteam.dormeaseadmin.admin.member.MemberDto;
 import com.oneteam.dormeaseadmin.utils.pagination.Criteria;
 import com.oneteam.dormeaseadmin.utils.pagination.PageMakerDto;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,8 +46,6 @@ public class ProductService {
             productRegistDtos.add(phDto);
         }
 
-        System.out.println("productRegistDtos ==> " + productRegistDtos);
-
         return productMapper.registProductConfirm(productRegistDtos);
     }
 
@@ -66,7 +65,14 @@ public class ProductService {
         log.info("selectProduct()");
 
         Map<String, Object> map = new HashMap<>();
-        List<ProductDto> productDtos = productMapper.selectProduct(productName);
+        List<ProductDto> productDtos = new ArrayList<>();
+        if(productName == "" || productName == null){       //전체 조회
+            productDtos = productMapper.selectAllProduct();
+        }
+        else{
+            productDtos = productMapper.selectProduct(productName);
+        }
+
         map.put("productDtos", productDtos);
 
         return map;
