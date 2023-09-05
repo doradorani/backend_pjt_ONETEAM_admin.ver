@@ -22,7 +22,7 @@
     <div id="sectionWrap">
         <div class="leaveOutList">
             <div class="allReturn">
-                <a href ="" class="allSendMessages">미복귀 학생 전체 복귀 문자 발송</a>
+                <a href ="#none" class="allSendMessages">미복귀 학생 전체 복귀 문자 발송</a>
             </div>
             <table>
                 <thead>
@@ -41,7 +41,6 @@
                 </thead>
                 <tbody>
                     <tr th:each="leavePassDto : ${leavePassDtos}">
-                        <td th:text="${leavePassDto.school_no}"></td>
                         <td th:text="${leavePassDto.student_name}"></td>
                         <td th:text="${leavePassDto.student_id}"></td>
                         <td th:text="${leavePassDto.student_grade}"></td>
@@ -58,14 +57,24 @@
                         <td th:if="${leavePassDto.admin_approval eq 1}">
                             승인완료
                         </td>
-                        <td>
+                        <td th:if="${leavePassDto.comeback_date eq '1000-01-01 00:00:00'}">
                             <a class="sendMessage" href="#none" th:data-no="${leavePassDto.no}">복귀</a>
+                        </td>
+                        <td th:if="${leavePassDto.comeback_date ne '1000-01-01 00:00:00'}">
+                            복귀 완료
                         </td>
                     </tr>
 
                 </tbody>
             </table>
+            <div class="pageWrap">
+                <div class="pageNumber">
 
+                </div>
+                <div class="goToPage">
+                    <a href="#none">go to page</a>
+                </div>
+            </div>
         </div>
     </div>
 
