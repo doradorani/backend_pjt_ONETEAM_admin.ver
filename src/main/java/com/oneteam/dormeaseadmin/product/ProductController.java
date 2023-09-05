@@ -1,8 +1,8 @@
 package com.oneteam.dormeaseadmin.product;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
-import com.oneteam.dormeaseadmin.page.PageDefine;
-import com.oneteam.dormeaseadmin.page.PageMakerDto;
+import com.oneteam.dormeaseadmin.utils.pagination.PageDefine;
+import com.oneteam.dormeaseadmin.utils.pagination.PageMakerDto;
 import com.oneteam.dormeaseadmin.utils.ProductUploadFileService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;

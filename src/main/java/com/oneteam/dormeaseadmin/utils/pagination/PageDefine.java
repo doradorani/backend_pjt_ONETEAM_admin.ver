@@ -1,4 +1,4 @@
-package com.oneteam.dormeaseadmin.page;
+package com.oneteam.dormeaseadmin.utils.pagination;
 
 public class PageDefine {
 

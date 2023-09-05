@@ -1,8 +1,8 @@
 package com.oneteam.dormeaseadmin.product;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
-import com.oneteam.dormeaseadmin.page.Criteria;
-import com.oneteam.dormeaseadmin.page.PageMakerDto;
+import com.oneteam.dormeaseadmin.utils.pagination.Criteria;
+import com.oneteam.dormeaseadmin.utils.pagination.PageMakerDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
