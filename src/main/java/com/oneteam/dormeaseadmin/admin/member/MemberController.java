@@ -13,10 +13,10 @@ import java.util.Map;
 @RequestMapping("/admin/member")
 public class MemberController {
 
-    private final MemberService adminService;
+    private final MemberService memberService;
 
-    public MemberController(MemberService adminService) {
-        this.adminService = adminService;
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     /*
@@ -40,7 +40,7 @@ public class MemberController {
     public Object idDuplicationCheck(@RequestParam String id) {
         log.info("idDuplicationCheck()");
 
-        Map<String, Object> map = adminService.idDuplicationCheck(id);
+        Map<String, Object> map = memberService.idDuplicationCheck(id);
 
         return map;
     }
@@ -55,7 +55,7 @@ public class MemberController {
 
         String nextPage = "redirect:/";
 
-        int result = adminService.createAccountConfirm(adminDto);
+        int result = memberService.createAccountConfirm(adminDto);
 
         return nextPage;
     }
@@ -75,26 +75,53 @@ public class MemberController {
     /*
      * 관리자 로그인 확인
      */
+
     @PostMapping("/loginConfirm")
     @ResponseBody
-    public Object loginConfirm(MemberDto memberDto, HttpSession session){
+    public Object loginConfirm(MemberDto memberDto, HttpSession session) {
         log.info("loginConfirm()");
 
-        MemberDto loginedMemberDto = adminService.loginConfirm(memberDto);
-
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = memberService.loginConfirm(memberDto);
+        MemberDto loginedMemberDto = (MemberDto) map.get("loginedMemberDto");
         if(loginedMemberDto != null){
             session.setAttribute("loginedMemberDto", loginedMemberDto);
             session.setMaxInactiveInterval(30*60);
-            map.put("result", "success");
-        } else {
-            map.put("result", "fail");
         }
-
         return map;
+
     }
+   /*
+     * 관리자 로그아웃 확인
+     */
+    @GetMapping("/logoutConfirm")
+    public String logoutConfirm(HttpSession session){
+        log.info("logoutConfirm()");
+
+        MemberDto loginedMemberDto = (MemberDto)session.getAttribute("loginedMemberDto");
+        memberService.logoutConfirm(loginedMemberDto);
+        session.removeAttribute("loginedMemberDto");
+
+        return "redirect:/";
+    }
+    /*
+     * 학생 사용자 승인 리스트
+     */
+    @GetMapping("/studentApprovalList")
+    public String studentApprovalList(HttpSession session){
+        log.info("studentApprovalList()");
+
+        return null;
+    }
+    /*
+     * 학부모 사용자 승인 리스트
+     */
+    @GetMapping("/parentsApprovalList")
+    public String parentsApprovalList(HttpSession session){
+        log.info("parentsApprovalList()");
 
 
+        return null;
+    }
 
 
 }

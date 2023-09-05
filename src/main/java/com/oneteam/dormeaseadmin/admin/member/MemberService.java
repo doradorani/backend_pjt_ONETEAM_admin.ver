@@ -11,11 +11,11 @@ import java.util.Map;
 @Service
 public class MemberService {
 
-    private final IMemberMapper adminMapper;
+    private final IMemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public MemberService(IMemberMapper adminMapper, PasswordEncoder passwordEncoder) {
-        this.adminMapper = adminMapper;
+    public MemberService(IMemberMapper memberMapper, PasswordEncoder passwordEncoder) {
+        this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -23,7 +23,7 @@ public class MemberService {
     public Map<String, Object> idDuplicationCheck(String id) {
         log.info("loginAccountConfirm()");
 
-        boolean isDuplicateID = adminMapper.selectDuplicateByID(id);
+        boolean isDuplicateID = memberMapper.selectDuplicateByID(id);
 
         Map<String, Object> map = new HashMap<>();
         map.put("isDuplicateID", isDuplicateID);
@@ -35,21 +35,44 @@ public class MemberService {
         log.info("createAccountConfirm()");
 
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
-        return adminMapper.createAccountConfirm(memberDto);
+        return memberMapper.createAccountConfirm(memberDto);
     }
 
     //관리자 로그인 확인
-    public MemberDto loginConfirm(MemberDto memberDto) {
+    public Map<String, Object> loginConfirm(MemberDto memberDto) {
         log.info("loginConfirm()");
-
-        MemberDto loginedMemberDto = adminMapper.loginConfirm(memberDto.getId());
-
-        if(loginedMemberDto != null){
+        MemberDto loginedMemberDto = memberMapper.selectMemberByID(memberDto.getId());
+        Map<String, Object> map = new HashMap<>();
+        if (loginedMemberDto != null) {
             if (!passwordEncoder.matches(memberDto.getPassword(), loginedMemberDto.getPassword())) {
+                memberMapper.updateFailCount(memberDto);
+                map.put("fail_count", loginedMemberDto.getFail_count() + 1);
+                map.put("result", false);
                 loginedMemberDto = null;
+            } else {
+                if (loginedMemberDto.getFail_count() >= 5) {
+                    map.put("fail_count", loginedMemberDto.getFail_count());
+                    loginedMemberDto = null;
+                    map.put("result", false);
+                } else {
+                    loginedMemberDto.setPassword(null);
+                    memberMapper.updateFailCount(loginedMemberDto);
+                    memberMapper.insertAdminLoginHistory(loginedMemberDto);
+                    loginedMemberDto.setFail_count(0);
+                    map.put("fail_count", 0);
+                    map.put("result", true);
+                }
             }
         }
-        return loginedMemberDto;
+        map.put("loginedMemberDto", loginedMemberDto);
+        return map;
     }
 
+    public void logoutConfirm(MemberDto loginedMemberDto) {
+        log.info("loginConfirm()");
+
+        int maxNo = memberMapper.selectMaxNoFromLoginHistory(loginedMemberDto.getId());
+        log.info("maxNo{}", maxNo);
+        memberMapper.updateAdminLoginHistory(maxNo);
+    }
 }

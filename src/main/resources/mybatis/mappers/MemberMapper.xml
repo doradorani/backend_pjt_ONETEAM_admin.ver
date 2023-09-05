@@ -27,7 +27,7 @@
             id = #{id}
     </select>
 
-    <insert id="createAccountConfirm" parameterType="com.oneteam.dormeaseadmin.admin.member.MemberDto">
+    <insert id="createAccountConfirm" parameterType="MemberDto">
         INSERT INTO
             admin (
                 school_no,
@@ -62,8 +62,7 @@
             NOW()
         )
     </insert>
-
-    <select id="loginConfirm" parameterType="String" resultType="com.oneteam.dormeaseadmin.admin.member.MemberDto">
+    <select id="selectMemberByID" parameterType="String" resultType="MemberDto">
         SELECT
             *
         FROM
@@ -71,5 +70,44 @@
         WHERE
             id = #{id}
     </select>
-
+    <insert id="insertAdminLoginHistory" parameterType="MemberDto">
+        INSERT INTO
+            admin_login_history
+        (
+            admin_id, admin_name, admin_grade, admin_mail, login_ip, login_date
+        )
+        VALUES
+            (
+             #{id}, #{name}, #{grade}, #{mail}, '218.235.89.82', NOW()
+            )
+    </insert>
+    <select id="selectMaxNoFromLoginHistory">
+        SELECT
+            max(no)
+        FROM
+            admin_login_history
+        WHERE
+            admin_id = #{id}
+    </select>
+    <update id="updateFailCount">
+        UPDATE
+            admin
+        SET
+            <if test="no != 0">
+            fail_count = 0
+            </if>
+            <if test="no == 0">
+            fail_count = fail_count + 1
+            </if>
+        WHERE
+            id = #{id}
+    </update>
+    <update id="updateAdminLoginHistory">
+        UPDATE
+            admin_login_history
+        SET
+            logout_date = NOW()
+        WHERE
+            no = #{maxNo}
+    </update>
 </mapper>

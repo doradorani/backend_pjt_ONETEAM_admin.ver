@@ -118,7 +118,7 @@ public class SmsService {
         }
 
 
-    public SmsResponseDTO sendMessages(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+    public SmsResponseDTO sendComebackMessage(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
         log.info("sendMessages()");
         HttpHeaders headers = makeHeader();
 
@@ -131,7 +131,7 @@ public class SmsService {
         return response;
     }
 
-    public Map<String, String> allSendMessages(String schoolNo) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+    public Map<String, String> allSenComebackdMessages(String schoolNo) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
         log.info("allSendMessages()");
         HttpHeaders headers = makeHeader();
 
