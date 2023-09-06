@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface ILeavePassMapper {
+public interface ILeavePassMapper{
     void updateApproveLeavePass(int no);
     LeavePassDto selectLeavePassByNo(int no);
 

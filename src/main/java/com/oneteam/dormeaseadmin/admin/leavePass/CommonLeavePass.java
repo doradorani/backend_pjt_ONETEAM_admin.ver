@@ -16,7 +16,7 @@ public class CommonLeavePass {
         this.leavePassMapper = leavePassMapper;
     }
 
-    public static Map<String, Object> commonClass(String schoolNo, int pageNum, int amount){
+    public Map<String, Object> commonClass(String schoolNo, int pageNum, int amount){
         Map<String, Object> map = new HashMap<>();
         Criteria criteria = new Criteria(pageNum, amount);
         int total = leavePassMapper.selectLeavePasses(schoolNo);

@@ -66,6 +66,7 @@ public class PageMakerDto {
                 ", total=" + total +
                 ", totalPage=" + totalPage +
                 ", criteria=" + criteria +
+                ", keyWord=" + keyWord +
                 "}";
     }
 }

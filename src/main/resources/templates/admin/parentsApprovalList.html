@@ -3,13 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <!--    <title th:replace="~{/include/title.html::title}"></title>-->
-    <title>aaa</title>
+    <title th:replace="~{/include/title.html::title}"></title>
 
     <link rel="stylesheet" th:href="@{/css/test.css}">
 
     <script th:replace="~{/include/common_js.html::jquery_cdn}" type="text/javascript"></script>
-    <script th:replace="~{/include/leaveOutListJs.html::js}" type="text/javascript"></script>
+    <script th:replace="~{/include/parentsApprovalListJs.html::js}" type="text/javascript"></script>
 
 </head>
 <body>
@@ -17,62 +16,58 @@
 <div>
 
     <div>
-       외박 리스트
+        보호자 리스트
     </div>
     <div id="sectionWrap">
-        <div class="leaveOutList">
-            <div class="allReturn">
-                <a href ="" class="allSendMessages">미복귀 학생 전체 복귀 문자 발송</a>
-            </div>
+        <div class="parentsList">
             <table>
                 <thead>
-                    <tr>
-                        <th>학생 이름</th>
-                        <th>학생 아이디</th>
-                        <th>학년</th>
-                        <th>기숙사실</th>
-                        <th>외박 사유</th>
-                        <th>외박 일자</th>
-                        <th>복귀 일자</th>
-                        <th>수정</th>
-                        <th>승인 여부</th>
-                        <th>복귀</th>
-                    </tr>
+                <tr>
+                    <th>보호자 이름</th>
+                    <th>보호자 아이디</th>
+                    <th>학생 학년</th>
+                    <th>학생 반</th>
+                    <th>학생 기숙사실</th>
+                    <th>학부모 우편번호</th>
+                    <th>학부모 주소</th>
+                    <th>가입일</th>
+                    <th>수정일</th>
+                    <th>수정</th>
+                    <th>활성화 여부</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="leavePassDto : ${leavePassDtos}">
-                        <td th:text="${leavePassDto.school_no}"></td>
-                        <td th:text="${leavePassDto.student_name}"></td>
-                        <td th:text="${leavePassDto.student_id}"></td>
-                        <td th:text="${leavePassDto.student_grade}"></td>
-                        <td th:text="${leavePassDto.dormitory}"></td>
-                        <td th:text="${leavePassDto.content}"></td>
-                        <td th:text="${leavePassDto.start_date}"></td>
-                        <td th:text="${leavePassDto.end_date}"></td>
-                        <td>
-                            <a class="modifyLeavePass" href="#none" th:data-no="${leavePassDto.no}">수정</a>
-                        </td>
-                        <td th:if="${leavePassDto.admin_approval eq 0}">
-                            <a class="approveLeavePass" href="#none" th:data-no="${leavePassDto.no}">승인</a>
-                        </td>
-                        <td th:if="${leavePassDto.admin_approval eq 1}">
-                            승인완료
-                        </td>
-                        <td th:if="${leavePassDto.comeback_date eq '1000-01-01'}">
-                            <a class="sendMessage" href="#none" th:data-no="${leavePassDto.no}">복귀</a>
-                        </td>
-                        <td th:else="${leavePassDto.comeback_date eq '1000-01-01'}">
-                            복귀 완료
-                        </td>
-                    </tr>
-
+                <tr th:each="parentsDto : ${parentsDtos}">
+                    <td th:text="${parentsDto.name}"></td>
+                    <td th:text="${parentsDto.id}"></td>
+                    <td th:text="${parentsDto.student_grade}"></td>
+                    <td th:text="${parentsDto.student_class}"></td>
+                    <td th:text="${parentsDto.dormitory}"></td>
+                    <td th:text="${parentsDto.zip_code}"></td>
+                    <td th:text="${parentsDto.address}+${parentsDto.address_detail1}+${parentsDto.address_detail2}"></td>
+                    <td th:text="${parentsDto.reg_date}"></td>
+                    <td th:text="${parentsDto.mod_date}"></td>
+                    <td>
+                        <a class="modifyParents" href="#none" th:data-no="${parentsDto.no}">수정</a>
+                    </td>
+                    <td th:if="${parentsDto.status eq 0}">
+                        <a class="approveParents" href="#none" th:data-no="${leavePassDto.no}">미승인</a>
+                    </td>
+                    <td th:if="${parentsDto.status eq 1}">승인</td>
+                </tr>
                 </tbody>
             </table>
+            <div class="pageWrap">
+                <div class="pageNumber">
+
+                </div>
+                <div class="goToPage">
+                    <a href="#none">go to page</a>
+                </div>
+            </div>
 
         </div>
     </div>
-
-
 
 
 </div>

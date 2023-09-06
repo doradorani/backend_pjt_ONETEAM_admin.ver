@@ -10,9 +10,11 @@ import java.util.Map;
 public class LeavePassService {
 
     private final ILeavePassMapper leavePassMapper;
+    private final CommonLeavePass commonLeavePass;
 
-    public LeavePassService(ILeavePassMapper leavePassMapper){
+    public LeavePassService(ILeavePassMapper leavePassMapper, CommonLeavePass commonLeavePass){
         this.leavePassMapper = leavePassMapper;
+        this.commonLeavePass = commonLeavePass;
     }
 
     public int modifyLeavePassConfirm(LeavePassDto leavePassDto) {
@@ -24,13 +26,13 @@ public class LeavePassService {
 
     public Map<String, Object> leaveOutList(String schoolNo, int pageNum, int amount) {
         log.info("approveLeavePass()");
-        return CommonLeavePass.commonClass(schoolNo, pageNum, amount );
+        return commonLeavePass.commonClass(schoolNo, pageNum, amount );
     }
     public Map<String, Object> approveLeavePass(int no, String schoolNo, int pageNum, int amount) {
         log.info("approveLeavePass()");
         leavePassMapper.updateApproveLeavePass(no);
 
-        return CommonLeavePass.commonClass(schoolNo, pageNum, amount);
+        return commonLeavePass.commonClass(schoolNo, pageNum, amount);
     }
 
     public LeavePassDto modifyLeavePassForm(int no) {
@@ -43,7 +45,7 @@ public class LeavePassService {
     public Map<String, Object> modifyComebackDateConfirm(LeavePassDto leavePassDto, int pageNum, int amount) {
         log.info("modifyComebackDateConfirm()");
         leavePassMapper.updateLeavePass(leavePassDto);
-        return CommonLeavePass.commonClass(leavePassDto.getSchool_no(), pageNum, amount);
+        return commonLeavePass.commonClass(leavePassDto.getSchool_no(), pageNum, amount);
     }
 
 

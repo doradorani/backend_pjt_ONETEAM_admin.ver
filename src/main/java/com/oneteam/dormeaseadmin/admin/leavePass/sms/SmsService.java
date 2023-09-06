@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oneteam.dormeaseadmin.admin.leavePass.CommonLeavePass;
 import com.oneteam.dormeaseadmin.admin.leavePass.ILeavePassMapper;
 import com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,10 +30,10 @@ import java.util.Map;
 
 @Log4j2
 @Service
-@RequiredArgsConstructor
 public class SmsService {
 
     private final ILeavePassMapper leavePassMapper;
+    private final CommonLeavePass commonLeavePass;
 
     @Value("${naver-cloud-sms.accessKey}")
     private String accessKey;
@@ -47,6 +46,11 @@ public class SmsService {
 
     @Value("${naver-cloud-sms.senderPhone}")
     private String phone;
+
+    public SmsService(ILeavePassMapper leavePassMapper, CommonLeavePass commonLeavePass) {
+        this.leavePassMapper = leavePassMapper;
+        this.commonLeavePass = commonLeavePass;
+    }
 
 
     public String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
@@ -132,7 +136,7 @@ public class SmsService {
             leavePassMapper.updateLeavePass(leavePassDto);
         }
         map.put("response", response);
-        map.put("leavePassDtos", CommonLeavePass.commonClass(schoolNo, pageNum, amount));
+        map.put("leavePassDtos", commonLeavePass.commonClass(schoolNo, pageNum, amount));
         return map;
     }
 
