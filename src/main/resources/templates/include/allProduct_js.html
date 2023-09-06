@@ -23,10 +23,10 @@
               else{
                   $("#selectProduct table").children().remove();
 
-                  for (let i = 0; i < data.productDtos.length; i += 5) {
+                  for (let i = 0; i < data.productDtos.length; i += 7) {
                       let appendTag = "<tr>";
 
-                      for (let j = i; j < i + 5 && j < data.productDtos.length; j++) {
+                      for (let j = i; j < i + 7 && j < data.productDtos.length; j++) {
                           appendTag += "<td>";
                           appendTag += "<a href='#none' class='add_product' data-product-name='" + data.productDtos[j].name;
                           appendTag += "' data-product-price='" + data.productDtos[j].price;
