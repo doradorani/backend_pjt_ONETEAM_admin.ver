@@ -39,7 +39,7 @@
         $("a.allSendMessages").on('click', function () {
             console.log("allSendMessages CLICK HANDLER()!!!!");
 
-            ajax_allSenComebackdMessages();
+            ajax_allSendComebackMessages();
 
         });
         $(document).on("click", "#sectionWrap div.pageWrap div.pageNumber a", function (e) {
@@ -183,10 +183,12 @@
                     console.log('AJAX SUCCESS - ajax_sendComebackMessage()');
 
                     let response = data.response;
-                    console.log(response.statusCode);
 
                     if (response.statusCode == '202') {
                         alert("메시지를 발송하였습니다.");
+                        let leavePassDtos = data.leavePassDtos;
+                        commonAppend(leavePassDtos);
+                        initEvent();
                     } else {
                         alert("메시지 전송에 실패하였습니다.");
                     }
@@ -203,19 +205,18 @@
 
     }
 
-    function ajax_allSenComebackdMessages() {
-        console.log("ajax_allSenComebackdMessages() CALLED!!!");
+    function ajax_allSendComebackMessages() {
+        console.log("ajax_allSendComebackMessages() CALLED!!!");
 
         $.ajax({
-            url: '/sms/allSenComebackdMessages',
+            url: '/sms/allSendComebackMessages',
             type: 'GET',
             success: function (data) {
-                console.log('AJAX SUCCESS - ajax_allSenComebackdMessages()');
-
+                console.log('AJAX SUCCESS - ajax_allSendComebackMessages()');
                 alert("메시지를 발송하였습니다.");
             },
             error: function (data) {
-                console.log('AJAX ERROR - ajax_allSenComebackdMessages()');
+                console.log('AJAX ERROR - ajax_allSendComebackMessages()');
             }
         });
     }

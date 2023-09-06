@@ -2,9 +2,9 @@ package com.oneteam.dormeaseadmin.admin.leavePass.sms;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oneteam.dormeaseadmin.admin.leavePass.CommonLeavePass;
 import com.oneteam.dormeaseadmin.admin.leavePass.ILeavePassMapper;
 import com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,10 +30,10 @@ import java.util.Map;
 
 @Log4j2
 @Service
-@RequiredArgsConstructor
 public class SmsService {
 
     private final ILeavePassMapper leavePassMapper;
+    private final CommonLeavePass commonLeavePass;
 
     @Value("${naver-cloud-sms.accessKey}")
     private String accessKey;
@@ -46,6 +46,11 @@ public class SmsService {
 
     @Value("${naver-cloud-sms.senderPhone}")
     private String phone;
+
+    public SmsService(ILeavePassMapper leavePassMapper, CommonLeavePass commonLeavePass) {
+        this.leavePassMapper = leavePassMapper;
+        this.commonLeavePass = commonLeavePass;
+    }
 
 
     public String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
@@ -118,23 +123,25 @@ public class SmsService {
         }
 
 
-    public SmsResponseDTO sendComebackMessage(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-        log.info("sendMessages()");
+    public Map<String, Object> sendComebackMessage(SmsDTO smsDTO, String schoolNo, int pageNum, int amount) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+        log.info("sendComebackMessage()");
         HttpHeaders headers = makeHeader();
 
         SmsResponseDTO response = buildRequestDto(smsDTO, headers);
+        Map<String, Object> map = new HashMap<>();
 
         if(response.getStatusCode().equals("202")){
             LeavePassDto leavePassDto = new LeavePassDto();
             leavePassDto.setNo(smsDTO.getNo());
             leavePassMapper.updateLeavePass(leavePassDto);
         }
-
-        return response;
+        map.put("response", response);
+        map.put("leavePassDtos", commonLeavePass.commonClass(schoolNo, pageNum, amount));
+        return map;
     }
 
-    public Map<String, String> allSenComebackdMessages(String schoolNo) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-        log.info("allSendMessages()");
+    public Map<String, String> allSendComebackMessages(String schoolNo) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+        log.info("allSendComebackMessages()");
         HttpHeaders headers = makeHeader();
 
         List<LeavePassDto> leavePassDtos = leavePassMapper.selectLeavePassBySchoolNo(schoolNo);

@@ -62,7 +62,7 @@
               } else {
                   let appendTag = "<span>아이디와 비밀번호가 맞지 않습니다!</span>";
                   if(data.fail_count >= 5 ){
-                      appendTag += "<br><span>비밀번호가 5회 이상 틀렸습니다. 비밀번호 찾기를 통해 새 비밀번호를 받아주세요</span>";
+                      appendTag += "<br><span>비밀번호가 5회 이상 틀렸습니다. 관리자에게 문의해주세요</span>";
                   }
 
                   $("div.loginConfirmResult").append(appendTag);

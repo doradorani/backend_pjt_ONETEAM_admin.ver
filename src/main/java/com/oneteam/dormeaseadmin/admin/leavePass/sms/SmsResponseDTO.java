@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,5 @@ public class SmsResponseDTO {
     private @SQLInjectionSafe LocalDateTime requestTime;
     private @SQLInjectionSafe String statusCode;
     private @SQLInjectionSafe String statusName;
+    private @SQLInjectionSafe Map<String, Object> map;
 }

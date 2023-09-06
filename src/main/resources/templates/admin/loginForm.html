@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <!--    <title th:replace="~{/include/title.html::title}"></title>-->
-    <title>aaa</title>
+        <title th:replace="~{/include/title.html::title}"></title>
 
     <link rel="stylesheet" th:href="@{/css/test.css}">
 
@@ -17,11 +16,11 @@
 <div>
 
     <div>
-       회원가입 페이지
+        회원가입 페이지
     </div>
 
     <div class="create_account_form">
-        <div class = "loginConfirmResult">
+        <div class="loginConfirmResult">
 
         </div>
         <form th:action="@{/admin/loginConfirm}" name="loginForm" method="post">
@@ -31,7 +30,6 @@
             <input type="reset" value="reset">
         </form>
     </div>
-
 
 
 </div>
