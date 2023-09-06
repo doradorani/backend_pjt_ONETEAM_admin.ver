@@ -20,7 +20,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(new MemberInterceptor())
-                .addPathPatterns("/admin/member/modify_form");
+                .addPathPatterns(
+                        "/admin/member/modify_form",
+                        "/product/**"
+                        );
     }
 
 }

@@ -25,7 +25,9 @@
 
 <div class="flex-container">
   <div>
-    상품 등록 페이지 (학교 관리자용)
+    <span th:text="${schoolDto.school_name}"></span><br>
+    등록 상품 리스트<br>
+    (학교 관리자용)
   </div>
 
   <div id="registProductForm">
@@ -48,10 +50,10 @@
 
   <div id="registProduct">
     <form th:action="@{/product/registProductConfirm}" name="registProductForm" method="post">
-      <input type="hidden" name="school_no" th:value="${loginedMemberDto.school_no}">
-      <input type="hidden" name="admin_id" th:value="${loginedMemberDto.id}">
-      <input type="hidden" name="admin_name" th:value="${loginedMemberDto.name}">
-      <input type="hidden" name="admin_grade" th:value="${loginedMemberDto.grade}">
+      <input type="hidden" name="school_no" th:value="${session.loginedMemberDto.school_no}">
+      <input type="hidden" name="admin_id" th:value="${session.loginedMemberDto.id}">
+      <input type="hidden" name="admin_name" th:value="${session.loginedMemberDto.name}">
+      <input type="hidden" name="admin_grade" th:value="${session.loginedMemberDto.grade}">
 
       <input type="button" value="regist product" onclick="registProductConfirm();">
     </form>

@@ -5,6 +5,13 @@
 
 <mapper namespace="com.oneteam.dormeaseadmin.product.IProductMapper">
 
+    <!-- 컨벤션 중 추가 기능 -->
+    <select id="findSchoolByCode" resultType="com.oneteam.dormeaseadmin.admin.school.SchoolDto">
+        SELECT *
+        FROM schoolInfo
+        WHERE school_code = #{school_no}
+    </select>
+
     <!--  전체 관리자 용  -->
     <insert id="insertNotice" parameterType="com.oneteam.dormeaseadmin.product.ProductDto">
         INSERT INTO
@@ -49,7 +56,7 @@
     <!--  학교 관리자 용  -->
     <select id="selectSchoolZipCodeByAdmin" parameterType="com.oneteam.dormeaseadmin.admin.member.MemberDto" resultType="String">
         SELECT
-            si.zip_code
+            DISTINCT si.zip_code
         FROM
             admin a
         JOIN
@@ -70,7 +77,7 @@
 
     <select id="selectSchoolZipCodeAndName" parameterType="com.oneteam.dormeaseadmin.product.ProductRegistDto" resultType="com.oneteam.dormeaseadmin.product.ProductRegistDto">
         SELECT
-            si.zip_code,
+            DISTINCT si.zip_code,
             si.school_name
         FROM
             admin a

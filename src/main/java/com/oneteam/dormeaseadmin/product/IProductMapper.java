@@ -1,6 +1,7 @@
 package com.oneteam.dormeaseadmin.product;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
+import com.oneteam.dormeaseadmin.admin.school.SchoolDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -37,4 +38,9 @@ public interface IProductMapper {
     //전체 관리자용
     public List<ProductNoticeDto> productNoticeList(ProductListDto productListDto);
     public int productNoticeListCnt(String keyWord);
+
+    ////-----///
+
+    //학교 관리를 위한 추가 기능 (학교 관리자 용)
+    public SchoolDto findSchoolByCode(MemberDto loginedMemberDto);
 }
