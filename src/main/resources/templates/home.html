@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-<!--    <title th:replace="~{/include/title.html::title}"></title>-->
-    <title>aaa</title>
+    <title th:replace="~{/include/title.html::title}"></title>
 
     <link rel="stylesheet" th:href="@{/css/test.css}">
 
@@ -25,6 +24,10 @@
 
     <div th:if="${session.loginedMemberDto != null}">
         <a th:href="@{/admin/member/logoutConfirm}">logout</a>
+    </div>
+
+    <div>
+        <a th:href="@{/notice/noticeListForm}">공지사항</a>
     </div>
 
     <div>
