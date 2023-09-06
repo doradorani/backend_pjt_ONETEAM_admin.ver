@@ -2,6 +2,7 @@ package com.oneteam.dormeaseadmin.admin.leavePass.sms;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oneteam.dormeaseadmin.admin.leavePass.CommonLeavePass;
 import com.oneteam.dormeaseadmin.admin.leavePass.ILeavePassMapper;
 import com.oneteam.dormeaseadmin.admin.leavePass.LeavePassDto;
 import lombok.RequiredArgsConstructor;
@@ -118,23 +119,25 @@ public class SmsService {
         }
 
 
-    public SmsResponseDTO sendComebackMessage(SmsDTO smsDTO) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-        log.info("sendMessages()");
+    public Map<String, Object> sendComebackMessage(SmsDTO smsDTO, String schoolNo, int pageNum, int amount) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+        log.info("sendComebackMessage()");
         HttpHeaders headers = makeHeader();
 
         SmsResponseDTO response = buildRequestDto(smsDTO, headers);
+        Map<String, Object> map = new HashMap<>();
 
         if(response.getStatusCode().equals("202")){
             LeavePassDto leavePassDto = new LeavePassDto();
             leavePassDto.setNo(smsDTO.getNo());
             leavePassMapper.updateLeavePass(leavePassDto);
         }
-
-        return response;
+        map.put("response", response);
+        map.put("leavePassDtos", CommonLeavePass.commonClass(schoolNo, pageNum, amount));
+        return map;
     }
 
-    public Map<String, String> allSenComebackdMessages(String schoolNo) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-        log.info("allSendMessages()");
+    public Map<String, String> allSendComebackMessages(String schoolNo) throws JsonProcessingException, RestClientException, URISyntaxException, UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+        log.info("allSendComebackMessages()");
         HttpHeaders headers = makeHeader();
 
         List<LeavePassDto> leavePassDtos = leavePassMapper.selectLeavePassBySchoolNo(schoolNo);
