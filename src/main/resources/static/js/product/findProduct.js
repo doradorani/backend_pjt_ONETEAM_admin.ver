@@ -18,6 +18,7 @@ function allfindProduct(){
     let findProductName = "";
     ajax_addProduct(findProductName);
 
+    $("#registProductForm input[type='text']").val("");
 }
 
 function ajax_addProduct(name){
@@ -42,10 +43,10 @@ function ajax_addProduct(name){
             else{
                 $("#selectProduct table").children().remove();
 
-                for (let i = 0; i < data.productDtos.length; i += 5) {
+                for (let i = 0; i < data.productDtos.length; i += 7) {
                     let appendTag = "<tr>";
 
-                    for (let j = i; j < i + 5 && j < data.productDtos.length; j++) {
+                    for (let j = i; j < i + 7 && j < data.productDtos.length; j++) {
                         appendTag += "<td>";
                         appendTag += "<a href='#none' class='add_product' data-product-name='" + data.productDtos[j].name;
                         appendTag += "' data-product-price='" + data.productDtos[j].price;
@@ -65,6 +66,9 @@ function ajax_addProduct(name){
 
                     appendTag += "</tr>";
                     $("#selectProduct table").append(appendTag);
+                }
+                if(name != ''){     //전체 보기 일땐 alert (x)
+                    alert('상품 검색이 완료되었습니다.');
                 }
             }
 
