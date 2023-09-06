@@ -74,7 +74,9 @@
             <a class="unRegist"
                href="#none"
                th:data-no="${productDto.no}"
-               th:data-product_name="${productDto.name}">
+               th:data-product_name="${productDto.name}"
+               th:data-adminid="${productDto.admin_id}"
+               th:data-loginedid="${session.loginedMemberDto.id}">
               삭제
             </a>
           </td>

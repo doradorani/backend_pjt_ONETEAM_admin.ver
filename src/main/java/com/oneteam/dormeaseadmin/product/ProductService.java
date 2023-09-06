@@ -1,10 +1,10 @@
 package com.oneteam.dormeaseadmin.product;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
+import com.oneteam.dormeaseadmin.admin.school.SchoolDto;
 import com.oneteam.dormeaseadmin.utils.pagination.Criteria;
 import com.oneteam.dormeaseadmin.utils.pagination.PageMakerDto;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -85,9 +85,11 @@ public class ProductService {
         Map<String, Object> item = new HashMap<>();
         ProductRegistDto productRegistDto = new ProductRegistDto();
         productRegistDto.setProduct_name(productName);
+
         productRegistDto.setZip_code(productMapper.selectSchoolZipCodeByAdmin(loginedMemberDto));
 
         int countExist = productMapper.isExistDatabase(productRegistDto);
+
         item.put("countExist", countExist);
 
         return item;
@@ -212,4 +214,10 @@ public class ProductService {
         return list;
     }
 
+    // 학교 이름 찾기
+    public SchoolDto findSchoolName(MemberDto loginedMemberDto) {
+        log.info("SchoolDto()");
+
+        return productMapper.findSchoolByCode(loginedMemberDto);
+    }
 }
