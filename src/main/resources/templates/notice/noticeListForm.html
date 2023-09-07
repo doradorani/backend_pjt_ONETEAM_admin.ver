@@ -5,6 +5,7 @@
   <title>Title</title>
   <link rel="stylesheet" th:href="@{/css/common.css}">
   <link rel="stylesheet" th:href="@{/css/headerFooter.css}">
+  <link rel="stylesheet" th:href="@{/css/board/boardListForm.css}">
 
   <script th:replace="~{/include/common_js.html::jquery_cdn}" type="text/javascript"></script>
   <script th:replace="~{/include/noticeListJs.html::js}" type="text/javascript"></script>
@@ -74,6 +75,9 @@
 
     </div>
     <!-- PAGENATION END -->
+
+    <footer th:replace="~{/include/headerNavFooter.html::footer}">
+    </footer>
   </div>
 </section>
 

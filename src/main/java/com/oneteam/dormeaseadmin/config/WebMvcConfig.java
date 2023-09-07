@@ -1,7 +1,6 @@
 package com.oneteam.dormeaseadmin.config;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberInterceptor;
-import com.oneteam.dormeaseadmin.product.ProductInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -22,14 +21,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(new MemberInterceptor())
                 .addPathPatterns(
-                        "/admin/member/modify_form"
+                        "/admin/member/modify_form",
+                        "/product/**",
+                        "/board/"
                         );
-
-        registry.addInterceptor(new ProductInterceptor())
-                .addPathPatterns(
-                        "/product/**"
-                );
     }
-
 
 }
