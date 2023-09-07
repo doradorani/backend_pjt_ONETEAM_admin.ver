@@ -11,7 +11,7 @@ public class LeavePassDto {
     private @SQLInjectionSafe String parent_phone;        // COMMENT '학부모 전화번호'
     private @SQLInjectionSafe String dormitory;           // COMMENT '기숙사 호실'
     private @SQLInjectionSafe int student_no;             // COMMENT '학생 번호'
-    private @SQLInjectionSafe int student_id;             // COMMENT '학생 아이디'
+    private @SQLInjectionSafe String student_id;             // COMMENT '학생 아이디'
     private @SQLInjectionSafe String student_name;        // COMMENT '학생 이름'
     private @SQLInjectionSafe int student_grade;          // COMMENT '학생 학년'
     private @SQLInjectionSafe String content;             // COMMENT '외출 사유'

@@ -51,14 +51,12 @@
         });
 
         // 페이지 번호 입력 시
-        $(document).on('click', '#sectionWrap > div.page_wrap > div.page_goto a.goto_page_btn', function() {
+        $(document).on('click', '#sectionWrap > div.pageWrap > div.page_goto a.goto_page_btn', function() {
             console.log('page_goto BUTTON CLICK HANDLER');
 
             let targetPageNum = $('#sectionWrap input[name="page_target_num"]').val();
             let totalPageNum = $('#sectionWrap span.page_total_num').text();
 
-            let keyWord = [[${keyWord}]];
-            let search = [[${search}]];
 
             if (targetPageNum == '' || targetPageNum == ' ' || targetPageNum == null) {
                 alert('이동하고자 하는 페이지 숫자를 입력하세요!');
@@ -118,10 +116,15 @@
     }
 
     function commonAppend(leavePassDtos){
+        console.log("commonAppend()CALLED!!!");
 
-        let appendTag = "";
-        $("#sectionWrap  table > tbody").children().remove();
+
+        $("#sectionWrap > div > table > tbody").children().remove();
+        console.log(leavePassDtos);
         for (let i = 0; i < leavePassDtos.length; i++) {
+            console.log("1231231");
+            console.log(leavePassDtos);
+            let appendTag = "";
             appendTag += "<tr>";
             appendTag += "<td>" + leavePassDtos[i].student_name + "</td>";
             appendTag += "<td>" + leavePassDtos[i].student_id + "</td>";
@@ -142,8 +145,9 @@
                 appendTag += "<td>복귀완료</td>";
             }
             appendTag += "</tr>";
+            $("#sectionWrap > div > table > tbody").append(appendTag);
         }
-        $("#sectionWrap table > tbody").append(appendTag);
+
     }
 
 
@@ -215,11 +219,15 @@
 
                     let response = data.response;
 
+                    console.log(data.leavePassDtos);
+
                     if (response.statusCode == '202') {
-                        alert("메시지를 발송하였습니다.");
-                        let leavePassDtos = data.leavePassDtos;
+
+                        let leavePassDtos = data.leavePassDtos.leavePassDtos;
                         commonAppend(leavePassDtos);
                         initEvent();
+
+                        alert("메시지를 발송하였습니다.");
                     } else {
                         alert("메시지 전송에 실패하였습니다.");
                     }
