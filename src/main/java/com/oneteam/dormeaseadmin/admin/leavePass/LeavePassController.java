@@ -34,6 +34,7 @@ public class LeavePassController {
 
         return nextPage;
     }
+
     @GetMapping("/approveLeavePass")
     @ResponseBody
     public Object approveLeavePass(HttpSession session, @RequestParam int no,

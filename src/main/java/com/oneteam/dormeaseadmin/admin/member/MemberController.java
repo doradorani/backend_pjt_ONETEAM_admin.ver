@@ -209,9 +209,9 @@ public class MemberController {
      */
     @GetMapping("/admin002ApprovalList")
     public String admin002ApprovalList(HttpSession session, Model model,
-                                      @RequestParam(required = false, defaultValue = "0") int no,
-                                      @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_PAGE_NUMBER) int pageNum,
-                                      @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_AMOUNT) int amount) {
+                                       @RequestParam(required = false, defaultValue = "0") int no,
+                                       @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_PAGE_NUMBER) int pageNum,
+                                       @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_AMOUNT) int amount) {
         log.info("admin002ApprovalList()");
         String nextPage = "admin/admin002ApprovalList";
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
@@ -226,9 +226,9 @@ public class MemberController {
      */
     @GetMapping("/admin001ApprovalList")
     public String admin001ApprovalList(HttpSession session, Model model,
-                                      @RequestParam(required = false, defaultValue = "0") int no,
-                                      @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_PAGE_NUMBER) int pageNum,
-                                      @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_AMOUNT) int amount) {
+                                       @RequestParam(required = false, defaultValue = "0") int no,
+                                       @RequestParam(value = "pageNum", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_PAGE_NUMBER) int pageNum,
+                                       @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_AMOUNT) int amount) {
         log.info("admin001ApprovalList()");
         String nextPage = "admin/admin001ApprovalList";
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
