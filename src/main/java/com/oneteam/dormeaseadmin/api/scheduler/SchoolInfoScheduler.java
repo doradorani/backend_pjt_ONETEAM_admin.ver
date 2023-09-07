@@ -20,7 +20,7 @@ public class SchoolInfoScheduler {
     ApiService apiService;
 
     //총 학교의 수
-    @Scheduled(cron = "0 17 12 5 9 *")
+    @Scheduled(cron = "0 0 0 1 * *")
     //RequestMapping(value = {"", "/"})
     public String countSchoolInfoScheduler(){
         log.info("countSchoolInfoScheduler()");

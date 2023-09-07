@@ -1,3 +1,4 @@
+/* 전체 페이지 스타일 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,25 +6,34 @@ body {
     background-color: #f4f4f4;
 }
 
-.section-wrap {
+/* Flex 컨테이너 스타일 */
+.flex-container {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%; /* 80%로 변경 */
+    margin: 0 auto; /* 가운데 정렬을 위해 margin 추가 */
+    max-width: 800px; /* 최대 너비 설정 (원하는 크기로 조절) */
+    min-height: 100vh; /* 화면 최소 높이 설정 */
+    padding: 20px; /* 적절한 패딩 추가 */
 }
 
-.section-wrap > div {
-    margin-top: 100px;
+/* 페이지 제목 스타일 */
+.flex-container > div:first-child {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
-.flex {
-    display: flex;
-    justify-content: space-between;
+/* 등록 상품 폼 스타일 */
+#registProductForm {
+    width: 100%;
+    text-align: center;
 }
 
-#registProductForm input,
-#registProductForm button,
-#registProduct form input[type="button"] {
+#registProductForm input[type="text"],
+#registProductForm input[type="button"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -31,9 +41,7 @@ body {
     border-radius: 4px;
 }
 
-#registProductForm button,
-#registProduct form input[type="button"] {
-    margin: 15px auto;
+#registProductForm input[type="button"] {
     background-color: #1976d2;
     color: white;
     font-weight: bold;
@@ -43,8 +51,41 @@ body {
     transition: background-color 0.3s;
 }
 
-#registProductForm button:hover,
-#registProduct form input[type="button"]:hover {
+#registProductForm input[type="button"]:hover {
+    background-color: #1565c0;
+}
+
+/* 폼 그룹 스타일 */
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* 입력 필드 스타일 */
+.form-group input[type="text"] {
+    flex: 0 0 80%; /* 80% 크기로 지정 */
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 버튼 스타일 */
+.form-group input[type="button"] {
+    width: auto;
+    padding: 10px;
+    background-color: #1976d2;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-group input[type="button"]:hover {
     background-color: #1565c0;
 }
 
@@ -72,3 +113,40 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #e0e0e0;
 }
+
+/* 버튼 컨테이너 스타일 */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px; /* 적절한 여백 설정 */
+}
+
+/* 버튼 스타일 */
+.button-container input[type="button"],
+.button-container a {
+    width: 100%; /* 전체 너비를 차지하도록 설정 */
+    margin-bottom: 10px; /* 버튼 사이의 간격 조절 */
+    padding: 10px;
+    background-color: #1976d2;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center; /* 텍스트 중앙 정렬 */
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    display: block; /* 블록 레벨 요소로 변경하여 너비 100% 사용 */
+}
+
+.button-container input[type="button"]:hover,
+.button-container a:hover {
+    background-color: #1565c0;
+}
+
+
+
+
