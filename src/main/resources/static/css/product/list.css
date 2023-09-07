@@ -1,3 +1,16 @@
+
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background-color: #f4f4f4;
+	flex-direction: column;
+}
+
 section {
 	width: 100%;
 	padding: 30px 0;
@@ -13,61 +26,180 @@ section #section_wrap {
 section #section_wrap .word {
 	text-align: center;
 	font-weight: bolder;
-	}
+	font-size: 24px; /* 원하는 크기로 조절하세요 */
+	margin-bottom: 20px; /* 아래 여백을 조절할 수 있습니다. */
+}
 /* WORD END */
 
-/* BOARD LIST START */
-section #section_wrap .board_list {
-	width: 1200px;
-	margin: 0 auto;
-	}
+/* SEARCH START */
+.search_wrap {
+	display: flex; /* 내부 요소를 가로로 배치 */
+	justify-content: space-between; /* 좌우 여백을 최대화하여 요소 배치 */
+	align-items: center; /* 내부 요소를 수직 정렬 */
+}
 
-section #section_wrap .board_list table {
+.search_area {
+	flex: 1; /* 자동으로 남은 공간을 차지하도록 설정 */
+	display: flex; /* 내부 요소를 가로로 배치 */
+	align-items: center; /* 내부 요소를 수직 정렬 */
+}
+
+.search_area input[type="text"] {
+	width: 70%; /* 입력 필드의 너비 조정 */
+	padding: 10px;
+	margin-right: 10px; /* 입력 필드 간의 간격 조정 */
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.search_area button {
+	width: auto; /* 버튼의 너비를 내용에 맞게 설정 */
+	padding: 10px 20px; /* 버튼 내부 여백 설정 */
+	background-color: #ddd; /* 회색 배경 색상 */
+	color: white; /* 텍스트 색상 */
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.search_area button:hover {
+	background-color: #999; /* 호버 시 배경 색상 변경 */
+}
+
+.search_all_wrap {
+	margin-left: 10px; /* 왼쪽 여백 설정 */
+}
+
+.search_all_wrap a {
+	text-decoration: none; /* 밑줄 제거 */
+	padding: 5px 15px; /* 링크 내부 여백 설정 */
+	background-color: #ddd; /* 회색 배경 색상 */
+	color: white; /* 텍스트 색상 */
+	border-radius: 4px; /* 둥근 모서리 설정 */
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.search_all_wrap a:hover {
+	background-color: #999; /* 호버 시 배경 색상 변경 */
+}
+/* SEARCH END */
+
+
+/* PRODUCT LIST START */
+table {
 	width: 100%;
 	border-collapse: collapse;
-	}
+}
 
-section #section_wrap .board_list table tr {
-	background-color: #fff;
-	}
+table, th, td {
+	border: 1px solid #e0e0e0;
+}
 
-section #section_wrap .board_list table tr:nth-child(2n+1) {
-	background-color: #f2f2f2;
-	}
-
-section #section_wrap .board_list table tr th {
-	border: 1px solid #ccc;
-	padding: 10px;
-	background-color: #e3fffc;
-	}
-
-section #section_wrap .board_list table tr td {
-	border: 1px solid #ccc;
+th, td {
 	padding: 10px;
 	text-align: center;
-	}
+}
 
-section #section_wrap .board_list table tr td:nth-child(1) {
-	width: 70px;
-	}
+th {
+	background-color: #f2f2f2;
+}
 
-section #section_wrap .board_list table tr td:nth-child(2) {
-	width: 100px;
-	}
+/* ALTERNATING ROW COLORS */
+tr:nth-child(odd) {
+	background-color: #f9f9f9;
+}
 
-section #section_wrap .board_list table tr td:nth-child(3) {
-	text-align: left;
-	}
+/* HOVER EFFECT */
+tr:hover {
+	background-color: #f5f5f5;
+}
 
-section #section_wrap .board_list table tr td:nth-child(4) {
-	width: 200px;
-	}
+/* TABLE HEADERS */
+th {
+	font-weight: bold;
+}
 
-section #section_wrap .board_list table tr td:nth-child(5) {
-	width: 70px;
-	}
+/* CUSTOM CELL STYLES (You can customize as needed) */
+td img {
+	max-width: 100px;
+	max-height: 100px;
+}
 
-/* BOARD LIST END */
+/* RESPONSIVE TABLE */
+@media (max-width: 768px) {
+	table {
+		border: 0;
+	}
+	table thead {
+		display: none;
+	}
+	table tr {
+		margin-bottom: 10px;
+		display: block;
+		border: 1px solid #ccc;
+	}
+	table td {
+		border: none;
+		border-bottom: 1px solid #e0e0e0;
+		position: relative;
+		padding-left: 50%;
+	}
+	table td:before {
+		content: attr(data-label);
+		position: absolute;
+		left: 0;
+		width: 45%;
+		padding-left: 0;
+		font-weight: bold;
+	}
+}
+
+/* 삭제 버튼 스타일 */
+.product_list .unRegist {
+	display: inline-block;
+	padding: 5px 10px;
+	background-color: #f44336; /* 배경색 */
+	color: white; /* 텍스트 색상 */
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.3s;
+}
+
+.product_list .unRegist:hover {
+	background-color: #d32f2f; /* 호버 시 배경색 변경 */
+}
+
+/* PRODUCT LIST END */
+
+
+/* BACK LINK START */
+.back {
+	float: right; /* 오른쪽으로 배치 */
+	margin-top: 10px;
+	padding: 5px 15px;
+	background-color: #ddd;
+	color: white;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	text-decoration: none; /* 밑줄 제거 */
+}
+
+.back a {
+	color: inherit;
+	text-decoration: none; /* 밑줄 제거 */
+}
+
+.back:hover {
+	background-color: #999;
+	text-decoration: none; /* 호버 시 밑줄 제거 */
+}
+/* BACK LINK END */
+
 
 /* page UI START */
 section #section_wrap > div.page_wrap {
@@ -137,18 +269,5 @@ section #section_wrap > div.page_wrap div.page_goto > a:hover {
 	}
 /* page UI END */
 
-/* BOARD WRITE START */
-section #section_wrap .board_write {
-	width: 1200px;
-	margin: 3px auto;
-	text-align: right;
-	}
 
-section #section_wrap .board_write a {
-	display: inline-block;
-	padding: 3px 10px;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	margin-left: 5px;
-	}
-/* BOARD WRITE END */
+
