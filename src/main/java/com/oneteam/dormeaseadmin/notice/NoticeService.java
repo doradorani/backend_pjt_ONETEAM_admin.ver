@@ -1,7 +1,6 @@
 package com.oneteam.dormeaseadmin.notice;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
-import com.oneteam.dormeaseadmin.board.BoardDto;
 import com.oneteam.dormeaseadmin.utils.UploadFileDto;
 import com.oneteam.dormeaseadmin.utils.pagination.Criteria;
 import com.oneteam.dormeaseadmin.utils.pagination.PageMakerDto;
@@ -22,26 +21,26 @@ public class NoticeService {
     }
 
     // 공지사항 게시글 리스트 페이지
-    public Map<String, Object> getAllNoticeContent(String schoolNo, int pageNum, int amount) {
+    public Map<String, Object> getAllNoticeContent(String schoolNo, String keyWord, String search, int pageNum, int amount) {
         log.info("getAllNoticeContent()");
         Criteria criteria = new Criteria(pageNum, amount);
-        Map<String , Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("keyWord", keyWord);
+        map.put("search", search);
         map.put("schoolNo", schoolNo);
-        map.put("criteria", criteria);
+        int totalCnt = noticeMapper.selectCountOfNotice(map);
+        PageMakerDto pageMakerDto = new PageMakerDto(schoolNo, criteria, totalCnt);
+        map.put("pageMakerDto", pageMakerDto);
         List<NoticeDto> noticeDtos = noticeMapper.selectAllNotice(map);
-        int totalCnt = noticeMapper.selectCountOfNotice(schoolNo);
+        map.remove("schoolNo");
+        map.put("noticeDtos", noticeDtos);
 
-        PageMakerDto pageMakerDto = new PageMakerDto(criteria, totalCnt);
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("noticeDtos", noticeDtos);
-        resultMap.put("pageMakerDto", pageMakerDto);
-
-        return resultMap;
+        return map;
     }
 
     // 공지사항 디테일 페이지
-    public Map<String, Object> getdetailNotice(int no) {
-        log.info("getdetailNotice()");
+    public Map<String, Object> getDetailNotice(int no) {
+        log.info("getDetailNotice()");
 
         NoticeDto noticeDto = new NoticeDto();
         List<UploadFileDto> uploadedFiles = new ArrayList<>();

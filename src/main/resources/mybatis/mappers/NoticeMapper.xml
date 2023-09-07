@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oneteam.dormeaseadmin.notice.INoticeMapper">
 
-    <select id="selectAllNotice">
+    <select id="selectAllNotice" parameterType="Map">
 
         SELECT
             n.*,
@@ -19,18 +19,40 @@
             n.school_no = #{schoolNo}
         AND
             n.status = 1
+        <if test="keyWord != null">
+            <if test='!search.equals("name")'>
+                AND n.${search} LIKE CONCAT('%', #{keyWord}, '%')
+            </if>
+            <if test='search.equals("name")'>
+                AND a.name LIKE CONCAT('%', #{keyWord}, '%')
+            </if>
+        </if>
         LIMIT
-            #{criteria.skip}, #{criteria.amount}
+            #{pageMakerDto.criteria.skip}, #{pageMakerDto.criteria.amount}
 
     </select>
 
-    <select id="selectCountOfNotice" parameterType="String" resultType="Integer">
+    <select id="selectCountOfNotice" parameterType="Map">
         SELECT
-            COUNT(*)
+        COUNT(*)
         FROM
-            notice_board
+        notice_board n
+        JOIN
+        admin a
+        ON
+        n.admin_no = a.no
         WHERE
-            school_no = #{schoolNo}
+        n.school_no = #{schoolNo}
+        AND
+        n.status = 1
+        <if test="keyWord != null">
+            <if test='!search.equals("name")'>
+                AND n.${search} LIKE CONCAT('%', #{keyWord}, '%')
+            </if>
+            <if test='search.equals("name")'>
+                AND a.name LIKE CONCAT('%', #{keyWord}, '%')
+            </if>
+        </if>
     </select>
 
     <select id="selectCountOfFixedNotice" resultType="Integer">
@@ -63,8 +85,8 @@
             n.*,
             a.name AS admin_name
         FROM
-            free_board f
-        INNER JOIN
+            notice_board n
+        JOIN
             admin a
         ON
             n.admin_no = a.no
@@ -116,7 +138,7 @@
             notice_board (
             school_no, admin_no, title, content, reg_date, mod_date )
         VALUES (
-            #{memberDto.school_no}, #{memberDto.no}, #{noticeDto.title}, #{noticeDto.content}, NOW(), NOW())
+            #{loginedMemberDto.school_no}, #{loginedMemberDto.no}, #{noticeDto.title}, #{noticeDto.content}, NOW(), NOW())
 
     </insert>
 
@@ -129,7 +151,7 @@
 
     </delete>
 
-    <update id="updateNotice" parameterType="com.oneteam.dormeaseadmin.notice.NoticeDto">
+    <update id="updateNotice" parameterType="NoticeDto">
 
         UPDATE
             notice_board

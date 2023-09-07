@@ -10,7 +10,7 @@ import java.util.Map;
 public interface INoticeMapper {
     List<NoticeDto> selectAllNotice(Map<String, Object> map);
 
-    int selectCountOfNotice(String schoolNo);
+    int selectCountOfNotice(Map<String, Object> map);
 
     int selectCountOfFixedNotice();
 

@@ -9,6 +9,7 @@
 <!--  <script th:replace="~{/include/use_console.html::js}" type="text/javascript"></script>-->
 
   <script src="/ckeditor5-39.0.1-q2hcooty1ujs/build/ckeditor.js"></script>
+  <script th:replace="~{/include/common_js.html::jquery_cdn}" type="text/javascript"></script>
   <script th:replace="~{/include/writeNoticeFormJs.html::js}" type="text/javascript"></script>
   <script th:src="@{/js/board/writeNoticeConfirm.js}" type="text/javascript"></script>
 </head>
@@ -25,7 +26,7 @@
     </div>
 
     <div class="content_list">
-      <form th:action="@{/board/writeNoticeConfirm}"
+      <form th:action="@{/notice/writeNoticeConfirm}"
             th:object="${postForm}"
             name="writeNoticeForm"
             method="post"

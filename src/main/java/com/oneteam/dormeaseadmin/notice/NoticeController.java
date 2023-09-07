@@ -1,12 +1,9 @@
 package com.oneteam.dormeaseadmin.notice;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
-import com.oneteam.dormeaseadmin.board.BoardDto;
-import com.oneteam.dormeaseadmin.utils.ProductUploadFileService;
 import com.oneteam.dormeaseadmin.utils.UploadFileDto;
 import com.oneteam.dormeaseadmin.utils.UploadFileService;
 import com.oneteam.dormeaseadmin.utils.pagination.PageDefine;
-import com.oneteam.dormeaseadmin.utils.pagination.PageMakerDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -34,6 +31,8 @@ public class NoticeController {
      */
     @GetMapping("/noticeListForm")
     public String noticeListForm(HttpSession session, Model model,
+                                 @RequestParam(value="keyWord", required = false) String keyWord,
+                                 @RequestParam(value="search", required = false) String search,
                                  @RequestParam(value="pageNum", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_PAGE_NUMBER) int pageNum,
                                  @RequestParam(value = "amount", required = false, defaultValue = PageDefine.DEFAULT_LEAVEPASS_AMOUNT) int amount) {
         log.info("noticeListForm()");
@@ -42,13 +41,13 @@ public class NoticeController {
         if (loginedMemberDto != null) {
             schoolNo = loginedMemberDto.getSchool_no();
         }
-        Map<String, Object> resultMap = noticeService.getAllNoticeContent(schoolNo, pageNum, amount);
+        Map<String, Object> resultMap = noticeService.getAllNoticeContent(schoolNo,keyWord, search, pageNum, amount);
 
         String nextPage = "notice/noticeListForm";
-        List<NoticeDto> noticeDtos = (List<NoticeDto>) resultMap.get("noticeDtos");
-        PageMakerDto pageMakerDto = (PageMakerDto) resultMap.get("pageMakerDto");
-        model.addAttribute("noticeDtos", noticeDtos);
-        model.addAttribute("pageMakerDto", pageMakerDto);
+        model.addAttribute("pageMakerDto", resultMap.get("pageMakerDto"));
+        model.addAttribute("search", resultMap.get("search"));
+        model.addAttribute("keyWord", resultMap.get("keyWord"));
+        model.addAttribute("noticeDtos", resultMap.get("noticeDtos"));
 
         return nextPage;
     }
@@ -60,7 +59,7 @@ public class NoticeController {
     public String detailNoticeForm(@RequestParam("no") int no, Model model) {
         log.info("detailNoticeForm()");
         String nextPage = "notice/detailNoticeForm";
-        Map<String, Object> noticeAndFilesMap = noticeService.getdetailNotice(no);
+        Map<String, Object> noticeAndFilesMap = noticeService.getDetailNotice(no);
         model.addAttribute("noticeAndFilesMap", noticeAndFilesMap);
 
         return nextPage;
@@ -73,11 +72,9 @@ public class NoticeController {
     public String writeNoticeForm(HttpSession session, Model model) {
         log.info("writeNoticeForm()");
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
-        if (loginedMemberDto != null) {
-            String nextPage = "notice/writeNoticeForm";
-            return nextPage;
-        }
-        return null;
+        String nextPage = "notice/writeNoticeForm";
+
+        return nextPage;
     }
 
     /*
