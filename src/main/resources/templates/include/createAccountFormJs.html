@@ -152,7 +152,7 @@
                 let schoolDtos = data.schoolDtos;
 
                 $('div.createAccountForm select[name = "school_no"]').children().remove();
-                $('div.createAccountForm select[name = "school_no"]').append("<option value=' '>---선택해주세요---</option>");
+                $('div.createAccountForm select[name = "school_no"]').append("<option value=''>---선택해주세요---</option>");
                 let appendTag = "";
                 for (let i = 0; i < schoolDtos.length; i++) {
                     appendTag += "<option value=" + schoolDtos[i].school_code + " data-school_name =" + schoolDtos[i].school_name + ">" + schoolDtos[i].school_name + "</option>";
