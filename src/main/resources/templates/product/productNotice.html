@@ -4,9 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-  <link rel="stylesheet" th:href="@{/css/headerFooter.css}">
   <link rel="stylesheet" th:href="@{/css/home.css}">
-  <link rel="stylesheet" th:href="@{/css/product/home.css}">
   <link rel="stylesheet" th:href="@{/css/product/list.css}">
 
   <script th:replace="~{/include/common_js.html::jquery_cdn}" type="text/javascript"></script>
@@ -14,9 +12,6 @@
 
 </head>
 <body>
-
-<header th:replace="~{/include/headerNavFooter.html::header}">
-</header>
 
 <section>
   <div id="section_wrap">
@@ -34,12 +29,13 @@
         <input type="text" name="keyword">
         <button onclick="search();">Search</button>
       </div>
+      <div class="search_all_wrap">
+        <a th:href="@{/product/productNotice}">전체 보기</a>
+      </div>
     </div>
     <!-- SEARCH END -->
 
-    <div class="search_all_wrap">
-      <a th:href="@{/product/productNotice}">전체 보기</a>
-    </div>
+    <br>
 
     <div id="productNotice" class="product_list">
       <table>
@@ -75,6 +71,11 @@
         </tbody>
       </table>
     </div>
+    <br>
+
+    <div class="back">
+      <a th:href="@{/product}">뒤로가기</a>
+    </div>
 
     <br><br>
 
@@ -89,6 +90,8 @@
     <!-- PAGENATION END -->
 
   </div>
+
+
 </section>
 
 
