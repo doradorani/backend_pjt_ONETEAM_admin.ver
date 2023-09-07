@@ -8,6 +8,7 @@ public class BoardDto {
     private @SQLInjectionSafe int no;                 // COMMENT '글 번호'
     private @SQLInjectionSafe int school_no;          // COMMENT '학교 번호'
     private @SQLInjectionSafe int student_no;         // COMMENT '학생 번호'
+    private @SQLInjectionSafe String student_name;         // COMMENT '학생 번호'
     private @SQLInjectionSafe int category_no;        // COMMENT '카테고리 번호'
     private @SQLInjectionSafe String title;           // COMMENT '글 제목'
     private @SQLInjectionSafe String content;         // COMMENT '글 내용'

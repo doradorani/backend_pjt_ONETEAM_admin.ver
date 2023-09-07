@@ -22,7 +22,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new MemberInterceptor())
                 .addPathPatterns(
                         "/admin/member/modify_form",
-                        "/product/**"
+                        "/product/**",
+                        "/board/"
                         );
     }
 
