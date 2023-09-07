@@ -1,9 +1,11 @@
 package com.oneteam.dormeaseadmin.product;
 
 import com.oneteam.dormeaseadmin.admin.member.MemberDto;
+import com.oneteam.dormeaseadmin.admin.school.SchoolDto;
 import com.oneteam.dormeaseadmin.utils.pagination.PageDefine;
 import com.oneteam.dormeaseadmin.utils.pagination.PageMakerDto;
 import com.oneteam.dormeaseadmin.utils.ProductUploadFileService;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Map;
 
@@ -32,10 +35,10 @@ public class ProductController {
      * 상품 페이지
      */
     @GetMapping({"", "/"})
-    public String productHome() {
+    public String productHome(Model model, HttpSession session) {
         log.info("productHome()");
-
         String nextPage = "product/productHome";
+
         return nextPage;
     }
 
@@ -60,9 +63,6 @@ public class ProductController {
         List<ProductNoticeDto> productNoticeDtos = (List<ProductNoticeDto>) listPage.get("productNoticeDtos");
         PageMakerDto pageMakerDto = (PageMakerDto) listPage.get("pageMakerDto");
 
-        System.out.println("productNoticeDtos ==> " + productNoticeDtos);
-        System.out.println("pageMakerDto ==> " + pageMakerDto);
-
         model.addAttribute("productNoticeDtos", productNoticeDtos);
         model.addAttribute("pageMakerDto", pageMakerDto);
         model.addAttribute("keyWord", keyWord);
@@ -78,16 +78,10 @@ public class ProductController {
         log.info("registProductForm()");
 
         String nextPage = "product/registProductForm";
+        MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
+        SchoolDto schoolDto = productService.findSchoolName(loginedMemberDto);
 
-        MemberDto loginedMemberDto = new MemberDto();
-        loginedMemberDto.setSchool_no("7004207");
-        loginedMemberDto.setId("test1");
-        loginedMemberDto.setName("test1");
-        loginedMemberDto.setGrade("admin_001");
-
-        session.setAttribute("loginedMemberDto", loginedMemberDto);
-        session.setMaxInactiveInterval(60 * 30);
-        model.addAttribute("loginedMemberDto", loginedMemberDto);
+        model.addAttribute("schoolDto",schoolDto);
 
         return nextPage;
     }
@@ -101,6 +95,8 @@ public class ProductController {
                                        @RequestParam("name") List<String> name,
                                        @RequestParam("price") List<Integer> price) {
         log.info("registProductConfirm()");
+
+
 
         int result = productService.registProductConfirm(productRegistDto, img, name, price);
 
@@ -164,13 +160,14 @@ public class ProductController {
         String nextPage = "product/registProductList";
 
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
+        SchoolDto schoolDto = productService.findSchoolName(loginedMemberDto);
 
         //페이지와 DTO 동시 관리
-        Map<String, Object> listPage = productService.registProductList("7004207", keyWord, pageNum, amount); //loginedMemberDto.getSchool_no()
+        Map<String, Object> listPage = productService.registProductList(loginedMemberDto.getSchool_no(), keyWord, pageNum, amount);
         List<ProductRegistDto> productRegistDtos = (List<ProductRegistDto>) listPage.get("productRegistDtos");
         PageMakerDto pageMakerDto = (PageMakerDto) listPage.get("pageMakerDto");
-        //pageMakerDto=PageMakerDto{startPage=1, endPage=2, prev=false, next=false, total=5, totalPage=2, criteria=Criteria(pageNum=1, amount=3, skip=0)
 
+        model.addAttribute("schoolDto", schoolDto);
         model.addAttribute("productRegistDtos", productRegistDtos);
         model.addAttribute("pageMakerDto", pageMakerDto);
         model.addAttribute("keyWord", keyWord);
@@ -197,16 +194,9 @@ public class ProductController {
      * 상품 등록 페이지 (최종 관리자 용)
      */
     @GetMapping("/adminProductForm")
-    public String adminProductForm(HttpSession session, Model model) {
+    public String adminProductForm(Model model) {
         log.info("adminProductForm()");
         String nextPage = "product/adminProductForm";
-
-        MemberDto loginedMemberDto = new MemberDto();
-        loginedMemberDto.setId("admin");
-        loginedMemberDto.setName("admin");
-        session.setAttribute("loginedMemberDto", loginedMemberDto);
-        session.setMaxInactiveInterval(60 * 30);
-        model.addAttribute("loginedMemberDto", loginedMemberDto);
 
         return nextPage;
     }
@@ -233,8 +223,6 @@ public class ProductController {
     public String adminProductConfirm(HttpSession session, ProductDto productDto,
                                       @RequestParam("file") MultipartFile file) {
         log.info("adminProductConfirm()");
-
-        MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
 
         String savedFileName = "";
         if (!file.isEmpty()) {          //파일 이미지를 업로드 하였다면
@@ -264,16 +252,11 @@ public class ProductController {
         log.info("adminProductList()");
         String nextPage = "product/adminProductList";
 
-        MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
-
         //페이지와 DTO 동시 관리
         Map<String, Object> listPage = productService.adminProductList(keyWord, pageNum, amount);
 
         List<ProductDto> productDtos = (List<ProductDto>) listPage.get("productDtos");
         PageMakerDto pageMakerDto = (PageMakerDto) listPage.get("pageMakerDto");
-        //pageMakerDto=PageMakerDto{startPage=1, endPage=2, prev=false, next=false, total=5, totalPage=2, criteria=Criteria(pageNum=1, amount=3, skip=0)
-
-        System.out.println("productDtos ==> " + productDtos);
 
         model.addAttribute("productDtos", productDtos);
         model.addAttribute("pageMakerDto", pageMakerDto);

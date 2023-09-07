@@ -13,7 +13,7 @@ public class MemberInterceptor implements HandlerInterceptor {
         MemberDto loginedMemberDto = (MemberDto) session.getAttribute("loginedMemberDto");
 
         if(loginedMemberDto == null) {
-            response.sendRedirect(request.getContextPath() + "/admin/member/login_form");
+            response.sendRedirect(request.getContextPath() + "/admin/member/loginForm");
             return false;
         } else {
             return true;
