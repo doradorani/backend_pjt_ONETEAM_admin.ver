@@ -1,47 +1,76 @@
 <!DOCTYPE html>
-<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:replace="~{/include/title.html::title}"></title>
+    <title>Title</title>
 
-    <link rel="stylesheet" th:href="@{/css/test.css}">
-
-
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/headerFooter.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
 
-<div>
+    <header th:replace="~{/include/headerNavFooter.html::header}">
+    </header>
 
-    <div>
-        홈 페이지
-    </div>
+    <section>
+        <div class="section-wrap">
+            <div class="info-container">
+                <div class="flex">
+                    <div class="notice-container">
+                        <h2>Notice</h2>
+                    </div>
+                    <div class="timetable-container">
+                        <h2>Timetable</h2>
+                    </div>
+                </div>
+                <div class="ad-container">
+                    <h2>광고 광고 광고 광고</h2>
+                </div>
+                <div class="flex">
+                    <div class="eng-word-container">
+                        <h2>English Word</h2>
+                    </div>
+                    <div class="menu-container">
+                        <h2>Menu</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="privacy-container">
+                <div class="login-container">
+                    <h2>Login to Cozy Nest</h2>
+                    <form th:if="${session.loginedMemberDto == null}">
+                        <button type="button" onclick="location.href='/admin/member/loginForm';">Cozy Nest 로그인</button>
+                        <span><a th:href="@{/admin/member/createAccountForm}">회원가입</a></span>
+                    </form>
+                </div>
+                <div class="point-container">
+                    <h2>나의 상벌점 현황</h2>
+                </div>
+                <div>
 
-    <div th:if="${session.loginedMemberDto == null}">
-        <a th:href="@{/admin/member/createAccountForm}">create Account</a>
-        <a th:href="@{/admin/member/loginForm}">login</a>
-    </div>
+                </div>
+                <div class="wrap" th:if="${session.loginedMemberDto != null}">
+                    <a href="#none">회원 수정</a>
+                    <a th:href="@{/admin/member/logoutConfirm}">로그아웃</a>
+                </div>
+                <a th:href="@{/notice/noticeListForm}">공지사항</a>
 
-    <div th:if="${session.loginedMemberDto != null}">
-        <a th:href="@{/admin/member/logoutConfirm}">logout</a>
-    </div>
+                <!-- Student Product 관련 추가 -->
+                <div class="wrap">
+                    <a th:href="@{/product/mySchoolProductForm}">우리 학교 매점</a>
+                </div>
+                <div class="wrap">
+                    <a th:href="@{/product/paymentHistory}">결제 내역</a>
+                </div>
+            </div>
 
-    <div>
-        <a th:href="@{/notice/noticeListForm}">공지사항</a>
-    </div>
 
-    <div>
-        <form method="post" action="/upload/excel" enctype="multipart/form-data">
-            <input type="file" name="file" accept=".xlsx">
-            <button type="submit">Upload</button>
-        </form>
-    </div>
+        </div>
+    </section>
 
-    <div>
-        <a th:href="@{/product}">product Home</a>
-    </div>
 
-</div>
+
 
 
 </body>
