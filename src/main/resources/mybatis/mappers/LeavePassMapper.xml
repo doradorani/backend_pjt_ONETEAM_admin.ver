@@ -25,7 +25,7 @@
         ORDER BY end_date DESC
     </select>
     <select id="selectLeavePassList" parameterType="PageMakerDto" resultType="LeavePassDto">
-        SELECT l.*,
+        SELECT DISTINCT l.*,
                p.phone as parent_phone,
                s.school_name
         FROM leave_pass l
@@ -64,7 +64,7 @@
     </update>
     <select id="selectLeavePassBySchoolNo" parameterType="String"
             resultType="LeavePassDto">
-        SELECT l.*,
+        SELECT DISTINCT l.*,
                p.phone as parent_phone,
                s.school_name
         FROM leave_pass l
